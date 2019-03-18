@@ -1,6 +1,6 @@
 {
   "name": "xui-form",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "react xui 开发插件的种子项目",
   "main": "./lib/index.js",
   "repository": {

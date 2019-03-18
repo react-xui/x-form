@@ -51,9 +51,14 @@ class App2 extends React.Component {
   }
   onSubmit(e){
     e.preventDefault();
-    let {getFormData} = this.props.form;
+    let {getFormData,validateFields} = this.props.form;
     console.log(getFormData())
-    // console.log(this.passRef)
+    validateFields(['obj.name'],function(arg){
+      console.log(arg,1111)
+    });
+    validateFields([],function(arg){
+      console.log(arg,2222)
+    });
   }
   onChange(){
     // alert(1)
@@ -81,7 +86,11 @@ class App2 extends React.Component {
           )}
           </Form.Item>
           <Form.Item>
-          {getFieldDecorator('biz.password',{})(
+          {getFieldDecorator('biz.password',{
+            rules:[{
+              required:true,message:'密码必填项'
+            }]
+          })(
             <Input type="password" ref={ref=>this.passRef=ref}/>
           )}
           </Form.Item>

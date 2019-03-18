@@ -15,7 +15,7 @@ import {EventEmitter} from 'events';
 
 export default class Form extends Component {
   render () {
-    // console.log(123)
+    // console.log(this.props)
     return (
         <form {...this.props} />
     );
@@ -135,8 +135,8 @@ Form.create=(param={})=>{
     formControl:{},
     validator:{},
     getFieldDecorator(name,obj){
-      let triggerName = [obj.trigger||"onChange"];
-      let validateTrigger = [obj.validateTrigger||"onChange"];
+      let triggerName = obj.trigger||"onChange";
+      let validateTrigger = obj.validateTrigger||"onChange";
       let self = this;
       // console.log(this)
       let formData= this.formData;
@@ -154,17 +154,27 @@ Form.create=(param={})=>{
           componentDidMount(){
             self.formControl[name].on('setValue',v=>{
               this.setState({v});
-            })
+            });
+            self.formControl[name].on('validate',(callback)=>{
+              this.validate();
+              callback(self.validator[name]);
+            });
           }
-          validate(e,v){
-            let rules = obj.rules;
-            for(let k in rules){
-              switch(k){
-                case 'required':{
-                  if(v.length===0){
-
+          validate(){
+            let rules = obj.rules ||[];
+            let v = this.state.v;
+            for(let i=0,l=rules.length;i<l;i++){
+              let r = rules[i];
+              for(let k in r){
+                switch(k){
+                  case 'required':{
+                    if(v.length===0){
+                      self.validator[name]={validateStatus:false,msg:r.message};
+                    }else{
+                      self.validator[name]={validateStatus:true};
+                    }
+                    break;
                   }
-                  break;
                 }
               }
             }
@@ -179,13 +189,17 @@ Form.create=(param={})=>{
             override[triggerName] = (e,v)=>{
               WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](e,v):null;
               formData[cname] = v;
-              this.setState({v});
-              if(triggerName === validateTrigger){
-                this.validate(e,v);
+              if(triggerName==='onChange'){
+                this.setState({v});
+              }
+              if(triggerName === validateTrigger ){
+                this.validate(v);
               }
             }
-            override[validateTrigger] = (e,v)=>{
-              this.validate(e,v);
+            if(validateTrigger !=='onChange'){
+              override[validateTrigger] = (e,v)=>{
+                this.validate(e,v);
+              }
             }
             return React.cloneElement(WrapComponent,override);
           }
@@ -204,11 +218,34 @@ Form.create=(param={})=>{
         // this.formControl[k] = {value : param[k]};
         this.formControl[k].emit('setValue',param[k]);
       }
+    },
+    //验证form
+    validateFields(fields=[],callback=()=>{}){
+      if(typeof fields ==='function'){
+        callback=fields;
+        fields=[];
+      }
+      let result = {};
+      if(fields.length==0){
+        for(let k in this.formControl){
+          this.formControl[k].emit('validate',res=>{
+            result[k] = res;
+          });
+        }
+      }else{
+        for(let k in fields){
+          this.formControl[fields[k]].emit('validate',res=>{
+            result[fields[k]] = res;
+          });
+        }
+      }
+      callback(result)
     }
   }
   form.getFieldDecorator = form.getFieldDecorator.bind(form);
   form.getFormData = form.getFormData.bind(form);
   form.setFieldsValue = form.setFieldsValue.bind(form);
+  form.validateFields = form.validateFields.bind(form);
   return WrapComponent => class extends Component{
     constructor(props){
       super(props)
@@ -216,7 +253,7 @@ Form.create=(param={})=>{
     }
     render(){
       // console.log(form)
-      return <WrapComponent {...this.props} form={form}></WrapComponent>
+      return <WrapComponent {...this.props}  form={form}></WrapComponent>
     }
   }
 } 
