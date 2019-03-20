@@ -170,8 +170,10 @@ Form.create=(param={})=>{
                   case 'required':{
                     if(v.length===0){
                       self.validator[name]={validateStatus:false,msg:r.message};
+                      this.setState({validateStatus:false,msg:r.message})
                     }else{
                       self.validator[name]={validateStatus:true};
+                      this.setState({validateStatus:true});
                     }
                     break;
                   }
