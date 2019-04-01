@@ -365,8 +365,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	              formData[cname] = this.state.v;
 	              // console.log(WrapComponent)
 	              //对trigger进行合并，先执行内部的change方法
-	              override[triggerName] = function (e, v) {
-	                WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](e, v) : null;
+	              override[triggerName] = function (v) {
+	                WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](v) : null;
 	                formData[cname] = v;
 	                if (triggerName === 'onChange') {
 	                  _this4.setState({ v: v });
@@ -376,8 +376,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	              };
 	              if (validateTrigger !== 'onChange') {
-	                override[validateTrigger] = function (e, v) {
-	                  _this4.validate(e, v);
+	                override[validateTrigger] = function (v) {
+	                  _this4.validate(v);
 	                };
 	              }
 	              return _react2.default.cloneElement(WrapComponent, override);
