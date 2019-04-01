@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import Form from '../src/index';
 import '../src/_index';
 import {Input} from 'jsx-input';
+import Select from 'jsx-select';
+import 'jsx-select/lib/index.css'
+const {Option} = Select;
 
 var appElement = document.getElementById('example');
 // const {getFieldDecorator,getFormData} = Form;
@@ -34,6 +37,18 @@ class App1 extends React.Component {
           <Form.Item>
           {getFieldDecorator('biz.password',{})(
             <Input type="password" ref={ref=>this.passRef=ref}/>
+          )}
+          </Form.Item>
+          <Form.Item>
+          {getFieldDecorator('obj.sex',{initValue:'1',trigger:'onSelect'})(
+          <Select placeholder="请选择" multiple={true} width={180} >
+            <Option value="1">这是一段很长很长的文字这是一段很长很长的文字</Option>
+            <Option value="2">我好2</Option>
+            <Option value="3">E1</Option>
+            <Option value="4">D3</Option>
+            <Option value="5">D5</Option>
+            <Option value="6">我好2</Option>
+          </Select>
           )}
           </Form.Item>
           <Form.Item>

@@ -188,8 +188,8 @@ Form.create=(param={})=>{
             formData[cname] = this.state.v;
             // console.log(WrapComponent)
               //对trigger进行合并，先执行内部的change方法
-            override[triggerName] = (e,v)=>{
-              WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](e,v):null;
+            override[triggerName] = (v)=>{
+              WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](v):null;
               formData[cname] = v;
               if(triggerName==='onChange'){
                 this.setState({v});
@@ -199,8 +199,8 @@ Form.create=(param={})=>{
               }
             }
             if(validateTrigger !=='onChange'){
-              override[validateTrigger] = (e,v)=>{
-                this.validate(e,v);
+              override[validateTrigger] = (v)=>{
+                this.validate(v);
               }
             }
             return React.cloneElement(WrapComponent,override);
