@@ -1,7 +1,6 @@
-.Seed {
-  background-color: #ccc;
+* {
+  outline: none;
 }
-.Seed a {
-  color: #aaa;
-  font-size: 12px;
+.x-form .validate-error {
+  border-color: red;
 }

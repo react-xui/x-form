@@ -149,10 +149,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * Contact: 55342775@qq.com
 	   */
 
-	// import Style from './_Seed'; 
-	// import hoistNonReactStatics from 'hoist-non-react-statics';
-
-
 	var Form = function (_Component) {
 	  _inherits(Form, _Component);
 
@@ -166,7 +162,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'render',
 	    value: function render() {
 	      // console.log(this.props)
-	      return _react2.default.createElement('form', this.props);
+	      var cls = (this.props.className || "") + ' x-form';
+	      return _react2.default.createElement('form', _extends({ className: cls }, this.props));
 	    }
 	  }]);
 
@@ -176,112 +173,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Form;
 
 	Form.Item = _FormItem2.default;
-	// class Item extends Component{
-	//   onChange(){
-
-	//   }
-	//   render(){
-	//     return null;
-	//   }
-	// }
-	// function Item(){
-	//   // return null;
-	// }
-	// class FormClass{
-	//   constructor(){
-	//     this.formData={};
-	//   }
-	//   getFieldDecorator(name,obj){
-	//     let triggerName = [obj.trigger||"onChange"];
-	//     let self = this;
-	//     console.log(this)
-	//     let formData= {}
-	//     return (WrapComponent) =>{
-	//       class Cls extends Component{
-	//         // return hoistNonReactStatics(WrapComponent,<Item/>)
-	//         constructor(props){
-	//           super(props)
-	//           let v = typeof obj.initValue ==='undefined' ?'':obj.initValue;
-	//           this.state ={v};
-	//           console.log(self)
-	//           formData[name] = v;
-
-	//         } 
-	//         render(){
-	//           let override = {
-	//             value:this.state.v
-	//           };
-	//           // console.log(WrapComponent)
-	//             //对trigger进行合并，先执行内部的change方法
-	//           override[triggerName] = (e,v)=>{
-	//             WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](e,v):null;
-	//             formData[name] = v;
-	//             this.setState({v});
-	//           }
-	//           return React.cloneElement(WrapComponent,override);
-	//         }
-	//       }
-	//       return <Cls/>
-	//     }
-	//   }
-	//   getFormData(){
-	//     return this.formData;
-	//   }
-	// }
-	// //存储表单的数据对象
-	// let formData = {}
-	// // let formRef = {};
-	// //提供方法对表单控件进行再次封装 ，托管value的管理，返回一个新的表单克隆实例
-	// Form.getFieldDecorator = (name,obj) =>{
-	//   // return (WrapComponent) => class extends Component{
-	//   //   render(){
-	//   //     return <WrapComponent />
-	//   //   }
-	//   // }
-	//   let triggerName = [obj.trigger||"onChange"];
-	//   return (WrapComponent) =>{
-	//      class Cls extends Component{
-	//       // console.log(WrapComponent)
-	//       // return hoistNonReactStatics(WrapComponent,<Item/>)
-	//       constructor(props){
-	//         super(props)
-	//         let v = typeof obj.initValue ==='undefined' ?'':obj.initValue;
-	//         this.state ={v};
-	//         formData[name] = v;
-	//       } 
-	//       render(){
-	//         let override = {
-	//           // ref:(ref)=>{
-	//           //   // console.log(ref)
-	//           //   formRef[name] = ref;
-	//           // },
-	//           // [obj.trigger||"onChange"]:(e,v)=>{
-	//           //   formData[name] = v;
-	//           // }
-	//           value:this.state.v
-	//         };
-	//         // console.log(WrapComponent)
-	//           //对trigger进行合并，先执行内部的change方法
-	//         override[triggerName] = (e,v)=>{
-	//           WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](e,v):null;
-	//           formData[name] = v;
-	//           this.setState({v});
-	//         }
-	//         return React.cloneElement(WrapComponent,override);
-	//       }
-	//     }
-	//     return <Cls/>
-	//   }
-	// }
-	// Form.getFormData = ()=>{
-	//   // let result = {};
-	//   // for(let k in formData){
-	//   //   // debugger;
-	//   //   result[k] = formData[k].state.value;
-	//   // }
-	//   // return result;
-	//   return formData;
-	// }
 	Form.create = function () {
 	  var param = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -311,7 +202,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this2 = _possibleConstructorReturn(this, (Cls.__proto__ || Object.getPrototypeOf(Cls)).call(this, props));
 
 	            var v = typeof obj.initValue === 'undefined' ? '' : obj.initValue;
-	            _this2.state = { v: v };
+	            _this2.state = { v: v, validateStatus: true };
 	            // console.log(self)
 	            formData[cname] = v;
 	            return _this2;
@@ -326,15 +217,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _this3.setState({ v: v });
 	              });
 	              self.formControl[name].on('validate', function (callback) {
-	                _this3.validate();
+	                _this3.validate(_this3.state.v);
 	                callback(self.validator[name]);
 	              });
 	            }
 	          }, {
 	            key: 'validate',
-	            value: function validate() {
+	            value: function validate(v) {
 	              var rules = obj.rules || [];
-	              var v = this.state.v;
+	              // let v = this.state.v;
+	              var isvalid = true,
+	                  msg = '';
 	              for (var i = 0, l = rules.length; i < l; i++) {
 	                var r = rules[i];
 	                for (var k in r) {
@@ -342,16 +235,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    case 'required':
 	                      {
 	                        if (v.length === 0) {
-	                          self.validator[name] = { validateStatus: false, msg: r.message };
-	                          this.setState({ validateStatus: false, msg: r.message });
-	                        } else {
-	                          self.validator[name] = { validateStatus: true };
-	                          this.setState({ validateStatus: true });
+	                          isvalid = false;
+	                          msg = r.message;
 	                        }
-	                        break;
 	                      }
+	                      break;
+	                    case 'pattern':
+	                      {
+	                        var reg = r.pattern;
+	                        if (!reg.test(v)) {
+	                          isvalid = false;
+	                          msg = r.message;
+	                        }
+	                      }break;
 	                  }
 	                }
+	              }
+	              if (isvalid) {
+	                self.validator[name] = { validateStatus: true };
+	                this.setState({ validateStatus: true });
+	              } else {
+	                self.validator[name] = { validateStatus: false, msg: msg };
+	                this.setState({ validateStatus: false, msg: msg });
 	              }
 	            }
 	          }, {
@@ -363,14 +268,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	                value: this.state.v
 	              };
 	              formData[cname] = this.state.v;
+	              var className = '',
+	                  title = '';
+	              if (!this.state.validateStatus) {
+	                className = 'validate-error';
+	                title = this.state.msg;
+	              }
+	              override["className"] = className;
+	              override["title"] = title;
 	              // console.log(WrapComponent)
 	              //对trigger进行合并，先执行内部的change方法
 	              override[triggerName] = function (v) {
 	                WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](v) : null;
 	                formData[cname] = v;
-	                if (triggerName === 'onChange') {
-	                  _this4.setState({ v: v });
-	                }
+	                // if(triggerName==='onChange'){
+	                _this4.setState({ v: v });
+	                // }
 	                if (triggerName === validateTrigger) {
 	                  _this4.validate(v);
 	                }
@@ -380,6 +293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                  _this4.validate(v);
 	                };
 	              }
+	              // console.log(override)
 	              return _react2.default.cloneElement(WrapComponent, override);
 	            }
 	          }]);
@@ -387,7 +301,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          return Cls;
 	        }(_react.Component);
 	        // let props = this.formControl[name];
-
 
 	        _this5.formControl[name] = new _events.EventEmitter();
 	        return _react2.default.createElement(Cls, null);
@@ -416,11 +329,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        fields = [];
 	      }
 	      var result = {};
+	      var promiseArr = [];
 	      if (fields.length == 0) {
 	        var _loop = function _loop(k) {
-	          _this6.formControl[k].emit('validate', function (res) {
-	            result[k] = res;
-	          });
+	          promiseArr.push(new Promise(function (resolve) {
+	            _this6.formControl[k].emit('validate', function (res) {
+	              result[k] = res;
+	              resolve(result);
+	            });
+	          }));
 	        };
 
 	        for (var k in this.formControl) {
@@ -428,16 +345,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      } else {
 	        var _loop2 = function _loop2(k) {
-	          _this6.formControl[fields[k]].emit('validate', function (res) {
-	            result[fields[k]] = res;
-	          });
+	          promiseArr.push(new Promise(function (resolve) {
+	            _this6.formControl[fields[k]].emit('validate', function (res) {
+	              result[fields[k]] = res;
+	              resolve(result);
+	            });
+	          }));
 	        };
 
 	        for (var k in fields) {
 	          _loop2(k);
 	        }
 	      }
-	      callback(result);
+	      Promise.all(promiseArr).then(function () {
+	        var isvalid = true,
+	            msg = [],
+	            errors = [];
+	        for (var k in result) {
+	          if (result[k] && result[k].validateStatus === false) {
+	            isvalid = false;
+	            msg.push(result[k].msg);
+	            errors[k] = result[k];
+	          }
+	        }
+	        callback(errors, isvalid, msg);
+	      });
 	    }
 	  };
 	  form.getFieldDecorator = form.getFieldDecorator.bind(form);
@@ -459,6 +391,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: 'render',
 	        value: function render() {
 	          // console.log(form)
+	          // console.log(WrapComponent)
 	          return _react2.default.createElement(WrapComponent, _extends({}, this.props, { form: form }));
 	        }
 	      }]);

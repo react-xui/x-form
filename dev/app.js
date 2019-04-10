@@ -16,7 +16,8 @@ class App1 extends React.Component {
   }
   onSubmit(e){
     e.preventDefault();
-    let {getFormData} = this.props.form;
+    let {getFormData,validateFields} = this.props.form;
+    validateFields((res,isvalid,msg)=>console.log(res,isvalid,msg));
     console.log(getFormData())
     // console.log(this.passRef)
   }
@@ -27,20 +28,25 @@ class App1 extends React.Component {
   render() {
     let {getFieldDecorator} = this.props.form;
     return (
-      <div>
-        <Form onSubmit={this.onSubmit.bind(this)}>
+      <Form onSubmit={this.onSubmit.bind(this)} >
           <Form.Item>
-          {getFieldDecorator('obj.name',{initValue:'1234'})(
+          {getFieldDecorator('obj.name',{initValue:'aa'})(
             <Input onChange={this.onChange.bind(this)}/>
           )}
           </Form.Item>
           <Form.Item>
-          {getFieldDecorator('biz.password',{})(
+          {getFieldDecorator('biz.password',{rules:[
+           { 
+             required:true, message:'必填项'
+          },{ 
+            pattern:/^\d*$/, message:'只能输入数字'
+         }
+          ]})(
             <Input type="password" ref={ref=>this.passRef=ref}/>
           )}
           </Form.Item>
           <Form.Item>
-          {getFieldDecorator('obj.sex',{initValue:'1',trigger:'onSelect'})(
+          {getFieldDecorator('obj.sex',{initValue:['2']})(
           <Select placeholder="请选择" multiple={true} width={180} >
             <Option value="1">这是一段很长很长的文字这是一段很长很长的文字</Option>
             <Option value="2">我好2</Option>
@@ -55,7 +61,6 @@ class App1 extends React.Component {
             <button type="submit" value="提交">提交</button>
           </Form.Item>
         </Form>
-      </div>
     )
   }
 }
@@ -88,8 +93,7 @@ class App2 extends React.Component {
     // debugger;
     let {getFieldDecorator} = this.props.form;
     return (
-      <div>
-        <Form onSubmit={this.onSubmit.bind(this)}>
+      <Form onSubmit={this.onSubmit.bind(this)}>
           <Form.Item>
           {getFieldDecorator('obj.name',{
             initValue:'1234',
@@ -114,7 +118,6 @@ class App2 extends React.Component {
             <button type="button" onClick={this.clear.bind(this)}>赋值</button>
           </Form.Item>
         </Form>
-      </div>
     )
   }
 }
