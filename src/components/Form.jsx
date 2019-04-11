@@ -120,8 +120,12 @@ Form.create=(param={})=>{
                 this.validate(v);
               }
             }
+            let mergeprops = Object.assign({},this.props,override);
+            if(typeof this.props.className !=='undefined' && typeof override.className !=='undefined'){
+                mergeprops.className = this.props.className +' '+override.className ;
+            }
             // console.log(override)
-            return React.cloneElement(WrapComponent,override);
+            return React.cloneElement(WrapComponent,mergeprops);
           }
         }
         // let props = this.formControl[name];
