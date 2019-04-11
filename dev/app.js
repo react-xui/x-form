@@ -30,7 +30,7 @@ class App1 extends React.Component {
     return (
       <Form onSubmit={this.onSubmit.bind(this)} >
           <Form.Item>
-          {getFieldDecorator('obj.name',{initValue:'aa'})(
+          {getFieldDecorator('obj.name',{value:'aa'})(
             <Input onChange={this.onChange.bind(this)}/>
           )}
           </Form.Item>
@@ -46,7 +46,7 @@ class App1 extends React.Component {
           )}
           </Form.Item>
           <Form.Item>
-          {getFieldDecorator('obj.sex',{initValue:['2']})(
+          {getFieldDecorator('obj.sex',{value:['2']})(
           <Select placeholder="请选择" multiple={true} width={180} >
             <Option value="1">这是一段很长很长的文字这是一段很长很长的文字</Option>
             <Option value="2">我好2</Option>
@@ -96,7 +96,7 @@ class App2 extends React.Component {
       <Form onSubmit={this.onSubmit.bind(this)}>
           <Form.Item>
           {getFieldDecorator('obj.name',{
-            initValue:'1234',
+            value:'1234',
             rules:[{
               required:true,message:'名称必填项'
             }]

@@ -39,7 +39,7 @@ Form.create=(param={})=>{
           // return hoistNonReactStatics(WrapComponent,<Item/>)
           constructor(props){
             super(props)
-            let v = typeof obj.initValue ==='undefined' ?'':obj.initValue;
+            let v = typeof obj.value ==='undefined' ?'':obj.value;
             this.state ={v,validateStatus:true};
             // console.log(self)
             formData[cname] = v;
@@ -52,6 +52,11 @@ Form.create=(param={})=>{
               this.validate(this.state.v);
               callback(self.validator[name]);
             });
+          }
+          componentWillReceiveProps(newProps){
+            if (newProps.value != this.state.v) {
+              this.setState({v:newProps.value})
+            }
           }
           validate(v){
             let rules = obj.rules ||[];

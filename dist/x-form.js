@@ -201,7 +201,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            var _this2 = _possibleConstructorReturn(this, (Cls.__proto__ || Object.getPrototypeOf(Cls)).call(this, props));
 
-	            var v = typeof obj.initValue === 'undefined' ? '' : obj.initValue;
+	            var v = typeof obj.value === 'undefined' ? '' : obj.value;
 	            _this2.state = { v: v, validateStatus: true };
 	            // console.log(self)
 	            formData[cname] = v;
@@ -220,6 +220,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _this3.validate(_this3.state.v);
 	                callback(self.validator[name]);
 	              });
+	            }
+	          }, {
+	            key: 'componentWillReceiveProps',
+	            value: function componentWillReceiveProps(newProps) {
+	              if (newProps.value != this.state.v) {
+	                this.setState({ v: newProps.value });
+	              }
 	            }
 	          }, {
 	            key: 'validate',
