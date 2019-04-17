@@ -173,6 +173,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Form;
 
 	Form.Item = _FormItem2.default;
+
+	function setValue(v, na, formData) {
+	  // if(na.length===0){
+	  //     return d;
+	  // }
+	  var n = na.shift();
+	  // if(typeof formData[n]=='undefined'){
+	  if (na.length === 0) {
+	    formData[n] = v;
+	  } else {
+	    formData[n] = formData[n] || {};
+	  }
+	  // }
+	  if (na.length > 0) {
+	    return setValue(v, na, formData[n]);
+	  }
+	}
 	Form.create = function () {
 	  var param = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -195,7 +212,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var Cls = function (_Component2) {
 	          _inherits(Cls, _Component2);
 
-	          // return hoistNonReactStatics(WrapComponent,<Item/>)
+	          _createClass(Cls, [{
+	            key: 'setFormData',
+
+	            // return hoistNonReactStatics(WrapComponent,<Item/>)
+	            value: function setFormData(name, v) {
+	              var na = name.split('.');
+	              setValue(v, na, formData);
+	            }
+	          }]);
+
 	          function Cls(props) {
 	            _classCallCheck(this, Cls);
 
@@ -204,7 +230,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var v = typeof obj.value === 'undefined' ? '' : obj.value;
 	            _this2.state = { v: v, validateStatus: true };
 	            // console.log(self)
-	            formData[cname] = v;
+	            // formData[cname] = v;
+	            _this2.setFormData(name, v);
 	            return _this2;
 	          }
 
@@ -213,12 +240,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value: function componentDidMount() {
 	              var _this3 = this;
 
-	              self.formControl[name].on('setValue', function (v) {
+	              self.formControl[cname].on('setValue', function (v) {
 	                _this3.setState({ v: v });
 	              });
-	              self.formControl[name].on('validate', function (callback) {
+	              self.formControl[cname].on('validate', function (callback) {
 	                _this3.validate(_this3.state.v);
-	                callback(self.validator[name]);
+	                callback(self.validator[cname]);
 	              });
 	            }
 	          }, {
@@ -259,10 +286,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                }
 	              }
 	              if (isvalid) {
-	                self.validator[name] = { validateStatus: true };
+	                self.validator[cname] = { validateStatus: true };
 	                this.setState({ validateStatus: true });
 	              } else {
-	                self.validator[name] = { validateStatus: false, msg: msg };
+	                self.validator[cname] = { validateStatus: false, msg: msg };
 	                this.setState({ validateStatus: false, msg: msg });
 	              }
 	            }
@@ -274,7 +301,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	              var override = {
 	                value: this.state.v
 	              };
-	              formData[cname] = this.state.v;
+	              // formData[cname] = this.state.v;
+	              this.setFormData(name, this.state.v);
 	              var className = '',
 	                  title = '';
 	              if (!this.state.validateStatus) {
@@ -287,7 +315,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	              //对trigger进行合并，先执行内部的change方法
 	              override[triggerName] = function (v) {
 	                WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](v) : null;
-	                formData[cname] = v;
+	                // formData[cname] = v;
+	                _this4.setFormData(name, v);
 	                // if(triggerName==='onChange'){
 	                _this4.setState({ v: v });
 	                // }
@@ -313,12 +342,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }(_react.Component);
 	        // let props = this.formControl[name];
 
-	        _this5.formControl[name] = new _events.EventEmitter();
+	        _this5.formControl[cname] = new _events.EventEmitter();
 	        return _react2.default.createElement(Cls, null);
 	        // return <Cls {...props}/>
 	      };
 	    },
 	    getFormData: function getFormData() {
+	      if (prefix) {
+	        var newData = {};
+	        for (var k in this.formData) {
+	          newData[prefix + '.' + k] = this.formData[k];
+	        }
+	        return newData;
+	      }
 	      return this.formData;
 	    },
 	    setFieldsValue: function setFieldsValue(param) {

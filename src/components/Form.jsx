@@ -21,6 +21,24 @@ export default class Form extends Component {
   }
 }
 Form.Item = FormItem;
+
+    
+function setValue(v,na,formData){
+  // if(na.length===0){
+  //     return d;
+  // }
+  let n = na.shift();
+  // if(typeof formData[n]=='undefined'){
+    if(na.length===0){
+      formData[n] = v
+    }else{
+      formData[n] =formData[n]  || {};
+    }
+  // }
+  if(na.length>0){
+    return setValue(v,na,formData[n])
+  }
+}
 Form.create=(param={})=>{
   let prefix = param.name;
   let form = {
@@ -37,20 +55,25 @@ Form.create=(param={})=>{
         let cname = prefix ? prefix+'.'+name:name;
         class Cls extends Component{
           // return hoistNonReactStatics(WrapComponent,<Item/>)
+          setFormData(name,v){
+            let na = name.split('.');
+            setValue(v,na,formData);
+          }
           constructor(props){
             super(props)
             let v = typeof obj.value ==='undefined' ?'':obj.value;
             this.state ={v,validateStatus:true};
             // console.log(self)
-            formData[cname] = v;
+            // formData[cname] = v;
+            this.setFormData(name,v);
           } 
           componentDidMount(){
-            self.formControl[name].on('setValue',v=>{
+            self.formControl[cname].on('setValue',v=>{
               this.setState({v});
             });
-            self.formControl[name].on('validate',(callback)=>{
+            self.formControl[cname].on('validate',(callback)=>{
               this.validate(this.state.v);
-              callback(self.validator[name]);
+              callback(self.validator[cname]);
             });
           }
           componentWillReceiveProps(newProps){
@@ -84,10 +107,10 @@ Form.create=(param={})=>{
               }
             }
             if(isvalid){
-              self.validator[name]={validateStatus:true};
+              self.validator[cname]={validateStatus:true};
               this.setState({validateStatus:true});
             }else{
-              self.validator[name]={validateStatus:false,msg};
+              self.validator[cname]={validateStatus:false,msg};
               this.setState({validateStatus:false,msg})
             }
           }
@@ -95,7 +118,8 @@ Form.create=(param={})=>{
             let override = {
               value:this.state.v
             };
-            formData[cname] = this.state.v;
+            // formData[cname] = this.state.v;
+            this.setFormData(name,this.state.v);
             let className = '',title='';
             if(!this.state.validateStatus){
               className = 'validate-error';
@@ -107,7 +131,8 @@ Form.create=(param={})=>{
               //对trigger进行合并，先执行内部的change方法
             override[triggerName] = (v)=>{
               WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](v):null;
-              formData[cname] = v;
+              // formData[cname] = v;
+              this.setFormData(name,v);
               // if(triggerName==='onChange'){
                 this.setState({v});
               // }
@@ -130,12 +155,19 @@ Form.create=(param={})=>{
         }
         // let props = this.formControl[name];
         
-        this.formControl[name] = new EventEmitter();
+        this.formControl[cname] = new EventEmitter();
         return <Cls/>;
         // return <Cls {...props}/>
       }
     },
     getFormData(){
+      if(prefix){
+        let newData = {};
+        for(let k in this.formData){
+          newData[`${prefix}.${k}`] = this.formData[k];
+        }
+        return newData;
+      }
       return this.formData;
     },
     setFieldsValue(param){
