@@ -251,6 +251,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }, {
 	            key: 'componentWillReceiveProps',
 	            value: function componentWillReceiveProps(newProps) {
+	              var nv = newProps.value;
+	              if (typeof nv === 'undefined') {
+	                nv = '';
+	              }
 	              if (newProps.value != this.state.v) {
 	                this.setState({ v: newProps.value });
 	              }

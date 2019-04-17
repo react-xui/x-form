@@ -105,7 +105,7 @@ class App2 extends React.Component {
           )}
           </Form.Item>
           <Form.Item>
-          {getFieldDecorator('biz.password',{
+          {getFieldDecorator('biz.password.txb',{
             rules:[{
               required:true,message:'密码必填项'
             }]

@@ -77,7 +77,11 @@ Form.create=(param={})=>{
             });
           }
           componentWillReceiveProps(newProps){
-            if (newProps.value != this.state.v) {
+            let nv =newProps.value;
+            if(typeof nv ==='undefined'){
+              nv = ''
+            }
+            if ( newProps.value != this.state.v) {
               this.setState({v:newProps.value})
             }
           }
