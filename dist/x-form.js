@@ -524,7 +524,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(FormItem, [{
 	        key: 'render',
 	        value: function render() {
-	            return _react2.default.createElement('div', null, this.props.children);
+	            return _react2.default.createElement(_react2.default.Fragment, null, this.props.children);
 	        }
 	    }]);
 
