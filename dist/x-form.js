@@ -264,6 +264,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value: function validate(v) {
 	              var rules = obj.rules || [];
 	              // let v = this.state.v;
+	              v = String(v);
 	              var isvalid = true,
 	                  msg = '';
 	              for (var i = 0, l = rules.length; i < l; i++) {
@@ -276,6 +277,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	                          isvalid = false;
 	                          msg = r.message;
 	                        }
+	                      }
+	                      break;
+	                    case 'minLength':
+	                      if (v.length < r.minLength) {
+	                        isvalid = false;
+	                        msg = r.message;
+	                      }
+	                      break;
+	                    case 'maxLength':
+	                      if (v.length > r.maxLength) {
+	                        isvalid = false;
+	                        msg = r.message;
+	                      }
+	                      break;
+	                    case 'min':
+	                      if (v < r.min) {
+	                        isvalid = false;
+	                        msg = r.message;
+	                      }
+	                      break;
+	                    case 'max':
+	                      if (v > r.max) {
+	                        isvalid = false;
+	                        msg = r.message;
 	                      }
 	                      break;
 	                    case 'pattern':
