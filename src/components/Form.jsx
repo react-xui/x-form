@@ -88,7 +88,7 @@ Form.create = (param = {}) => {
           validate(v) {
             let rules = obj.rules || [];
             // let v = this.state.v;
-            v = String(v);
+            v = typeof v === 'undefined' ? '' : String(v);
             let isvalid = true, msg = ''
             for (let i = 0, l = rules.length; i < l; i++) {
               let r = rules[i];
@@ -132,6 +132,12 @@ Form.create = (param = {}) => {
                       msg = r.message;
                     }
                   } break;
+                  case 'custom':{
+                     if (!this.ref.validate(v)) {
+                       isvalid = false;
+                       msg = r.message;
+                     }
+                  }
                 }
               }
             }
@@ -177,6 +183,9 @@ Form.create = (param = {}) => {
             let mergeprops = Object.assign({}, this.props, override);
             if (typeof this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
               mergeprops.className = this.props.className + ' ' + override.className;
+            }
+            mergeprops.ref = ref=>{
+              this.ref = ref;
             }
             // console.log(override)
             return React.cloneElement(WrapComponent, mergeprops);

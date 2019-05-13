@@ -16,7 +16,11 @@ npm install xui-form --save
     )}
     </Form.Item>
     <Form.Item>
-    {getFieldDecorator('biz.password',{})(
+    {getFieldDecorator('biz.password',{
+        {
+            custom:true,message:"自定义验证"
+        }
+    })(
     <Input type="password" ref={ref=>this.passRef=ref}/>
     )}
     </Form.Item>

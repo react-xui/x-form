@@ -64,6 +64,22 @@ class App1 extends React.Component {
     )
   }
 }
+class Password extends React.Component{
+  validate(v){
+    if(v.length>6 ){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  onChange=(e)=>{
+    let v = e.target.value;
+    this.props.onChange(v)
+  }
+  render(){
+    return <input type="text" {...this.props} onChange={this.onChange}/>
+  }
+}
 class App2 extends React.Component {
   constructor(props) {
     super(props);
@@ -108,9 +124,11 @@ class App2 extends React.Component {
           {getFieldDecorator('biz.password.txb',{
             rules:[{
               required:true,message:'密码必填项'
+            },{
+              custom:true,message:"自定义验证"
             }]
           })(
-            <Input type="password" ref={ref=>this.passRef=ref}/>
+            <Password ref={ref=>this.passRef=ref}/>
           )}
           </Form.Item>
           <Form.Item>

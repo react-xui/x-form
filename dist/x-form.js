@@ -264,7 +264,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value: function validate(v) {
 	              var rules = obj.rules || [];
 	              // let v = this.state.v;
-	              v = String(v);
+	              v = typeof v === 'undefined' ? '' : String(v);
 	              var isvalid = true,
 	                  msg = '';
 	              for (var i = 0, l = rules.length; i < l; i++) {
@@ -311,6 +311,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                          msg = r.message;
 	                        }
 	                      }break;
+	                    case 'custom':
+	                      {
+	                        if (!this.ref.validate(v)) {
+	                          isvalid = false;
+	                          msg = r.message;
+	                        }
+	                      }
 	                  }
 	                }
 	              }
@@ -362,6 +369,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	              if (typeof this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
 	                mergeprops.className = this.props.className + ' ' + override.className;
 	              }
+	              mergeprops.ref = function (ref) {
+	                _this4.ref = ref;
+	              };
 	              // console.log(override)
 	              return _react2.default.cloneElement(WrapComponent, mergeprops);
 	            }
