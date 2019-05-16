@@ -12,11 +12,15 @@ import FormItem from './FormItem';
 import { EventEmitter } from 'events';
 
 export default class Form extends Component {
+  onSubmit = (event)=>{
+    event.preventDefault();
+    this.props.onSubmit && this.props.onSubmit(e);
+  }
   render() {
     // console.log(this.props)
     let cls = (this.props.className || "") + ' x-form';
     return (
-      <form className={cls} {...this.props} />
+      <form className={cls} {...this.props} onSubmit={this.onSubmit}/>
     );
   }
 }

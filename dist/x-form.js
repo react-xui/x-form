@@ -153,9 +153,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(Form, _Component);
 
 	  function Form() {
+	    var _ref;
+
+	    var _temp, _this, _ret;
+
 	    _classCallCheck(this, Form);
 
-	    return _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).apply(this, arguments));
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Form.__proto__ || Object.getPrototypeOf(Form)).call.apply(_ref, [this].concat(args))), _this), _this.onSubmit = function (event) {
+	      event.preventDefault();
+	      _this.props.onSubmit && _this.props.onSubmit(e);
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
 	  _createClass(Form, [{
@@ -163,7 +174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function render() {
 	      // console.log(this.props)
 	      var cls = (this.props.className || "") + ' x-form';
-	      return _react2.default.createElement('form', _extends({ className: cls }, this.props));
+	      return _react2.default.createElement('form', _extends({ className: cls }, this.props, { onSubmit: this.onSubmit }));
 	    }
 	  }]);
 
