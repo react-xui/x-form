@@ -14,7 +14,7 @@ import { EventEmitter } from 'events';
 export default class Form extends Component {
   onSubmit = (event)=>{
     event.preventDefault();
-    this.props.onSubmit && this.props.onSubmit(e);
+    this.props.onSubmit && this.props.onSubmit(event);
   }
   render() {
     // console.log(this.props)

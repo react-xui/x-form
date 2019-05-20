@@ -165,7 +165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Form.__proto__ || Object.getPrototypeOf(Form)).call.apply(_ref, [this].concat(args))), _this), _this.onSubmit = function (event) {
 	      event.preventDefault();
-	      _this.props.onSubmit && _this.props.onSubmit(e);
+	      _this.props.onSubmit && _this.props.onSubmit(event);
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
