@@ -80,11 +80,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	} : function (obj) {
+	  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+	};
 
 	var _extends = Object.assign || function (target) {
 	  for (var i = 1; i < arguments.length; i++) {
@@ -133,12 +139,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _possibleConstructorReturn(self, call) {
 	  if (!self) {
 	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+	  }return call && ((typeof call === "undefined" ? "undefined" : _typeof2(call)) === "object" || typeof call === "function") ? call : self;
 	}
 
 	function _inherits(subClass, superClass) {
 	  if (typeof superClass !== "function" && superClass !== null) {
-	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+	    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof2(superClass)));
 	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	} /*
 	   * Created with Visual Studio Code.
@@ -408,10 +414,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this.formData;
 	    },
 	    setFieldsValue: function setFieldsValue(param) {
-	      for (var k in param) {
-	        // this.formControl[k] = {value : param[k]};
-	        this.formControl[k].emit('setValue', param[k]);
+	      // for (let k in param) {
+	      //   // this.formControl[k] = {value : param[k]};
+	      //   this.formControl[k].emit('setValue', param[k]);
+	      // }
+	      this.setv(param, []);
+	    },
+	    setv: function setv(obj, path) {
+	      for (var k in obj) {
+	        path.push(k);
+	        if (_typeof(obj[k]) === 'object') {
+	          this.setv(obj[k], path);
+	        } else {
+	          console.log(path.join('.') + ':' + obj[k]);
+	          var eventer = this.formControl[path.join('.')];
+	          eventer && eventer.emit('setValue', obj[k]);
+	          path.pop();
+	        }
 	      }
+	      path.splice(0, path.length);
 	    },
 
 	    //验证form

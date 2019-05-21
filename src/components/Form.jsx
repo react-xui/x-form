@@ -213,10 +213,25 @@ Form.create = (param = {}) => {
       return this.formData;
     },
     setFieldsValue(param) {
-      for (let k in param) {
-        // this.formControl[k] = {value : param[k]};
-        this.formControl[k].emit('setValue', param[k]);
+      // for (let k in param) {
+      //   // this.formControl[k] = {value : param[k]};
+      //   this.formControl[k].emit('setValue', param[k]);
+      // }
+      this.setv(param,[])
+    },
+    setv(obj,path){
+      for(let k in obj){
+        path.push(k)
+        if( typeof obj[k] ==='object' ){
+          this.setv(obj[k],path)
+        }else{
+          console.log(path.join('.') +':'+ obj[k])
+          let eventer=this.formControl[path.join('.')];
+          eventer&&eventer.emit('setValue', obj[k]);
+          path.pop()
+        }
       }
+      path.splice(0,path.length)
     },
     //验证form
     validateFields(fields = [], callback = () => { }) {

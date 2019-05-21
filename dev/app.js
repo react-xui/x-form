@@ -104,6 +104,11 @@ class App2 extends React.Component {
     this.props.form.setFieldsValue({
       'obj.name':+new Date()
     });
+    this.props.form.setFieldsValue({
+      obj:{name:+new Date(),b:1},
+      biz:{password:{txb:+new Date()*100},b:{c:99}},
+      xxx:'yyy'
+    });
   }
   render() {
     // debugger;
