@@ -137,10 +137,12 @@ Form.create = (param = {}) => {
                     }
                   } break;
                   case 'custom':{
-                     if (!this.ref.validate(v)) {
+                    let m = r.custom || 'validate';
+                     if (!this.ref[m](v)) {
                        isvalid = false;
                        msg = r.message;
                      }
+                     break;
                   }
                 }
               }
@@ -188,7 +190,9 @@ Form.create = (param = {}) => {
             if (typeof this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
               mergeprops.className = this.props.className + ' ' + override.className;
             }
-            mergeprops.ref = ref=>{
+            // this.ref = React.createRef();
+            // mergeprops.ref = this.ref;
+            mergeprops.onLoad = ref=>{
               this.ref = ref;
             }
             // console.log(override)

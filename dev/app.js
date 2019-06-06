@@ -65,6 +65,10 @@ class App1 extends React.Component {
   }
 }
 class Password extends React.Component{
+  constructor(props){
+    super(props);
+    this.props.onLoad(this)
+  }
   validate(v){
     if(v.length>6 ){
       return true;
@@ -80,6 +84,12 @@ class Password extends React.Component{
     return <input type="text" {...this.props} onChange={this.onChange}/>
   }
 }
+const NewPass =  Password =>class  extends React.Component{
+  render(){
+    return <Password {...this.props} />
+  }
+}
+const NewPassWord = NewPass(Password)
 class App2 extends React.Component {
   constructor(props) {
     super(props);
@@ -130,10 +140,10 @@ class App2 extends React.Component {
             rules:[{
               required:true,message:'密码必填项'
             },{
-              custom:true,message:"自定义验证"
+              custom:'validate',message:"自定义验证"
             }]
           })(
-            <Password ref={ref=>this.passRef=ref}/>
+            <NewPassWord ref={ref=>this.passRef=ref}/>
           )}
           </Form.Item>
           <Form.Item>

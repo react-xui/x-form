@@ -330,10 +330,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                      }break;
 	                    case 'custom':
 	                      {
-	                        if (!this.ref.validate(v)) {
+	                        var m = r.custom || 'validate';
+	                        if (!this.ref[m](v)) {
 	                          isvalid = false;
 	                          msg = r.message;
 	                        }
+	                        break;
 	                      }
 	                  }
 	                }
@@ -386,7 +388,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	              if (typeof this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
 	                mergeprops.className = this.props.className + ' ' + override.className;
 	              }
-	              mergeprops.ref = function (ref) {
+	              // this.ref = React.createRef();
+	              // mergeprops.ref = this.ref;
+	              mergeprops.onLoad = function (ref) {
 	                _this4.ref = ref;
 	              };
 	              // console.log(override)
