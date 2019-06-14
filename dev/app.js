@@ -147,6 +147,9 @@ class App2 extends React.Component {
           )}
           </Form.Item>
           <Form.Item>
+            <input ref={ref => this.passRef = ref} />
+        </Form.Item>
+          <Form.Item>
             <button type="submit" value="提交">提交</button>
             <button type="button" onClick={this.clear.bind(this)}>赋值</button>
           </Form.Item>

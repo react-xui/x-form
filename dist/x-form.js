@@ -373,6 +373,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                // formData[cname] = v;
 	                _this4.setFormData(name, v);
 	                // if(triggerName==='onChange'){
+	                // debugger;
+	                if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object' && v.constructor.name === 'SyntheticEvent') {
+	                  v = v.currentTarget.value;
+	                }
 	                _this4.setState({ v: v });
 	                // }
 	                if (triggerName === validateTrigger) {
@@ -402,6 +406,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }(_react.Component);
 	        // let props = this.formControl[name];
 
+
+	        Cls.displayName = 'formItem';
 	        _this5.formControl[cname] = new _events.EventEmitter();
 	        return _react2.default.createElement(Cls, null);
 	        // return <Cls {...props}/>
@@ -430,7 +436,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (_typeof(obj[k]) === 'object') {
 	          this.setv(obj[k], path);
 	        } else {
-	          console.log(path.join('.') + ':' + obj[k]);
+	          // console.log(path.join('.') +':'+ obj[k])
 	          var eventer = this.formControl[path.join('.')];
 	          eventer && eventer.emit('setValue', obj[k]);
 	          path.pop();
@@ -595,6 +601,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(FormItem, [{
 	        key: 'render',
 	        value: function render() {
+	            console.log(this.props.children);
 	            return _react2.default.createElement(_react2.default.Fragment, null, this.props.children);
 	        }
 	    }]);

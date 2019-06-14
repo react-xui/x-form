@@ -12,7 +12,7 @@ import FormItem from './FormItem';
 import { EventEmitter } from 'events';
 
 export default class Form extends Component {
-  onSubmit = (event)=>{
+  onSubmit = (event) => {
     event.preventDefault();
     this.props.onSubmit && this.props.onSubmit(event);
   }
@@ -20,7 +20,7 @@ export default class Form extends Component {
     // console.log(this.props)
     let cls = (this.props.className || "") + ' x-form';
     return (
-      <form className={cls} {...this.props} onSubmit={this.onSubmit}/>
+      <form className={cls} {...this.props} onSubmit={this.onSubmit} />
     );
   }
 }
@@ -136,13 +136,13 @@ Form.create = (param = {}) => {
                       msg = r.message;
                     }
                   } break;
-                  case 'custom':{
+                  case 'custom': {
                     let m = r.custom || 'validate';
-                     if (!this.ref[m](v)) {
-                       isvalid = false;
-                       msg = r.message;
-                     }
-                     break;
+                    if (!this.ref[m](v)) {
+                      isvalid = false;
+                      msg = r.message;
+                    }
+                    break;
                   }
                 }
               }
@@ -175,6 +175,10 @@ Form.create = (param = {}) => {
               // formData[cname] = v;
               this.setFormData(name, v);
               // if(triggerName==='onChange'){
+              // debugger;
+              if (typeof v === 'object' && v.constructor.name === 'SyntheticEvent') {
+                v = v.currentTarget.value;
+              }
               this.setState({ v });
               // }
               if (triggerName === validateTrigger) {
@@ -192,7 +196,7 @@ Form.create = (param = {}) => {
             }
             // this.ref = React.createRef();
             // mergeprops.ref = this.ref;
-            mergeprops.onLoad = ref=>{
+            mergeprops.onLoad = ref => {
               this.ref = ref;
             }
             // console.log(override)
@@ -200,7 +204,7 @@ Form.create = (param = {}) => {
           }
         }
         // let props = this.formControl[name];
-
+        Cls.displayName='formItem';
         this.formControl[cname] = new EventEmitter();
         return <Cls />;
         // return <Cls {...props}/>
@@ -221,21 +225,21 @@ Form.create = (param = {}) => {
       //   // this.formControl[k] = {value : param[k]};
       //   this.formControl[k].emit('setValue', param[k]);
       // }
-      this.setv(param,[])
+      this.setv(param, [])
     },
-    setv(obj,path){
-      for(let k in obj){
+    setv(obj, path) {
+      for (let k in obj) {
         path.push(k)
-        if( typeof obj[k] ==='object' ){
-          this.setv(obj[k],path)
-        }else{
-          console.log(path.join('.') +':'+ obj[k])
-          let eventer=this.formControl[path.join('.')];
-          eventer&&eventer.emit('setValue', obj[k]);
+        if (typeof obj[k] === 'object') {
+          this.setv(obj[k], path)
+        } else {
+          // console.log(path.join('.') +':'+ obj[k])
+          let eventer = this.formControl[path.join('.')];
+          eventer && eventer.emit('setValue', obj[k]);
           path.pop()
         }
       }
-      path.splice(0,path.length)
+      path.splice(0, path.length)
     },
     //验证form
     validateFields(fields = [], callback = () => { }) {
