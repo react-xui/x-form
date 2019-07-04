@@ -67,7 +67,7 @@ class App1 extends React.Component {
 class Password extends React.Component{
   constructor(props){
     super(props);
-    this.props.onLoad(this)
+    // this.props.onLoad(this)
   }
   validate(v){
     if(v.length>6 ){
