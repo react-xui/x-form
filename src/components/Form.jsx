@@ -7,9 +7,11 @@
  * Contact: 55342775@qq.com
  */
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import FormItem from './FormItem';
 import { EventEmitter } from 'events';
+import Tooltip from 'antd/lib/tooltip';
+// import 'antd/lib/tooltip/style/css';
 
 export default class Form extends Component {
   onSubmit = (event) => {
@@ -167,7 +169,7 @@ Form.create = (param = {}) => {
               title = this.state.msg;
             }
             override["className"] = className;
-            override["title"] = title;
+            // override["title"] = title;
             // console.log(WrapComponent)
             //对trigger进行合并，先执行内部的change方法
             override[triggerName] = (v) => {
@@ -190,7 +192,7 @@ Form.create = (param = {}) => {
                 this.validate(v);
               }
             }
-            let mergeprops = Object.assign({}, this.props, override);
+            let mergeprops = Object.assign({autoFocus :true}, this.props, override);
             if (typeof this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
               mergeprops.className = this.props.className + ' ' + override.className;
             }
@@ -200,7 +202,12 @@ Form.create = (param = {}) => {
               this.ref = ref;
             }
             // console.log(override)
-            return React.cloneElement(WrapComponent, mergeprops);
+            
+            let newdom= React.cloneElement(WrapComponent, mergeprops);
+            if (!this.state.validateStatus) {
+              newdom = React.createElement(Tooltip,{title,trigger:'focus|hover'},newdom);
+            }
+            return newdom;
           }
         }
         // let props = this.formControl[name];

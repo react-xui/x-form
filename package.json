@@ -1,6 +1,6 @@
 {
   "name": "xui-form",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "react xui x-form",
   "main": "./lib/index.js",
   "repository": {
@@ -67,5 +67,8 @@
     "react-component",
     "form",
     "react-plugin"
-  ]
+  ],
+  "dependencies": {
+    "antd": "^3.20.6"
+  }
 }
