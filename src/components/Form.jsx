@@ -13,6 +13,24 @@ import { EventEmitter } from 'events';
 import Tooltip from 'antd/lib/tooltip';
 // import 'antd/lib/tooltip/style/css';
 
+function getValue(d, na) {
+  if (na.length === 0) {
+      return d;
+  }
+  let n = na.shift();
+  if (typeof d === 'undefined') return '';
+  let obj = d[n];
+  return getValue(obj, na)
+}
+const getI18n = (key, d={}) => {
+  let na = String(key).split('.');
+  let value = getValue(d, na);
+  if (typeof value === 'undefined') {
+      return key;
+  } else {
+      return value;
+  }
+}
 export default class Form extends Component {
   onSubmit = (event) => {
     event.preventDefault();
@@ -201,10 +219,10 @@ Form.create = (param = {}) => {
             mergeprops.onLoad = ref => {
               this.ref = ref;
             }
-            // console.log(override)
             
             let newdom= React.cloneElement(WrapComponent, mergeprops);
             if (!this.state.validateStatus) {
+              getI18n(title,mergeprops.locale)
               newdom = React.createElement(Tooltip,{title,trigger:'focus|hover'},newdom);
             }
             return newdom;

@@ -160,6 +160,27 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// import 'antd/lib/tooltip/style/css';
 
+	function getValue(d, na) {
+	  if (na.length === 0) {
+	    return d;
+	  }
+	  var n = na.shift();
+	  if (typeof d === 'undefined') return '';
+	  var obj = d[n];
+	  return getValue(obj, na);
+	}
+	var getI18n = function getI18n(key) {
+	  var d = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	  var na = String(key).split('.');
+	  var value = getValue(d, na);
+	  if (typeof value === 'undefined') {
+	    return key;
+	  } else {
+	    return value;
+	  }
+	};
+
 	var Form = function (_Component) {
 	  _inherits(Form, _Component);
 
@@ -402,10 +423,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	              mergeprops.onLoad = function (ref) {
 	                _this4.ref = ref;
 	              };
-	              // console.log(override)
 
 	              var newdom = _react2.default.cloneElement(WrapComponent, mergeprops);
 	              if (!this.state.validateStatus) {
+	                getI18n(title, mergeprops.locale);
 	                newdom = _react2.default.createElement(_tooltip2.default, { title: title, trigger: 'focus|hover' }, newdom);
 	              }
 	              return newdom;
@@ -1124,9 +1145,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "getDisabledCompatibleChildren",
 	    value: function getDisabledCompatibleChildren(element) {
-	      var elementType = element.type;
-
-	      if ((elementType.__ANT_BUTTON || elementType.__ANT_SWITCH || element.type === 'button') && element.props.disabled) {
+	      if ((element.type.__ANT_BUTTON || element.type === 'button') && element.props.disabled) {
 	        // Pick some layout related style properties up to span
 	        // Prevent layout bugs like https://github.com/ant-design/ant-design/issues/5254
 	        var _splitObject = splitObject(element.props.style, ['position', 'left', 'right', 'top', 'bottom', 'float', 'display', 'zIndex']),
@@ -1196,8 +1215,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	(0, _reactLifecyclesCompat.polyfill)(Tooltip);
 	var _default = Tooltip;
 	exports["default"] = _default;
-	//# sourceMappingURL=index.js.map
-
 
 /***/ }),
 /* 6 */
@@ -9889,8 +9906,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	  return placementMap;
 	}
-	//# sourceMappingURL=placements.js.map
-
 
 /***/ }),
 /* 147 */
@@ -10030,8 +10045,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _default = ConfigProvider;
 	exports["default"] = _default;
-	//# sourceMappingURL=index.js.map
-
 
 /***/ }),
 /* 148 */
@@ -10389,8 +10402,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _default = renderEmpty;
 	exports["default"] = _default;
-	//# sourceMappingURL=renderEmpty.js.map
-
 
 /***/ }),
 /* 153 */
@@ -10455,7 +10466,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      componentName: "Empty"
 	    }, function (locale) {
 	      var prefixCls = getPrefixCls('empty', customizePrefixCls);
-	      var des = typeof description !== 'undefined' ? description : locale.description;
+	      var des = description || locale.description;
 	      var alt = typeof des === 'string' ? des : 'empty';
 	      var imageNode = null;
 
@@ -10473,7 +10484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }, restProps), React.createElement("div", {
 	        className: "".concat(prefixCls, "-image"),
 	        style: imageStyle
-	      }, imageNode), des && React.createElement("p", {
+	      }, imageNode), React.createElement("p", {
 	        className: "".concat(prefixCls, "-description")
 	      }, des), children && React.createElement("div", {
 	        className: "".concat(prefixCls, "-footer")
@@ -10487,8 +10498,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	Empty.PRESENTED_IMAGE_SIMPLE = simpleEmptyImg;
 	var _default = Empty;
 	exports["default"] = _default;
-	//# sourceMappingURL=index.js.map
-
 
 /***/ }),
 /* 154 */
@@ -10582,8 +10591,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	LocaleReceiver.contextTypes = {
 	  antLocale: PropTypes.object
 	};
-	//# sourceMappingURL=LocaleReceiver.js.map
-
 
 /***/ }),
 /* 155 */
@@ -10661,8 +10668,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	};
 	exports["default"] = _default;
-	//# sourceMappingURL=default.js.map
-
 
 /***/ }),
 /* 156 */
@@ -10721,8 +10726,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _default = locale;
 	exports["default"] = _default;
-	//# sourceMappingURL=en_US.js.map
-
 
 /***/ }),
 /* 158 */
@@ -10776,8 +10779,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	var _default = locale;
 	exports["default"] = _default;
-	//# sourceMappingURL=en_US.js.map
-
 
 /***/ }),
 /* 160 */
@@ -10796,8 +10797,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _default = _en_US["default"];
 	exports["default"] = _default;
-	//# sourceMappingURL=en_US.js.map
-
 
 /***/ })
 /******/ ])
