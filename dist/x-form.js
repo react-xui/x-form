@@ -463,6 +463,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    setv: function setv(obj, path) {
 	      for (var k in obj) {
+	        if (k === 'children') continue;
 	        path.push(k);
 	        if (_typeof(obj[k]) === 'object') {
 	          this.setv(obj[k], path);
@@ -626,7 +627,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _createClass(FormItem, [{
 	        key: 'render',
 	        value: function render() {
-	            console.log(this.props.children);
+	            // console.log(this.props.children)
 	            return _react2.default.createElement(_react2.default.Fragment, null, this.props.children);
 	        }
 	    }]);

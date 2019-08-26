@@ -15,20 +15,20 @@ import Tooltip from 'antd/lib/tooltip';
 
 function getValue(d, na) {
   if (na.length === 0) {
-      return d;
+    return d;
   }
   let n = na.shift();
   if (typeof d === 'undefined') return '';
   let obj = d[n];
   return getValue(obj, na)
 }
-const getI18n = (key, d={}) => {
+const getI18n = (key, d = {}) => {
   let na = String(key).split('.');
   let value = getValue(d, na);
   if (typeof value === 'undefined') {
-      return key;
+    return key;
   } else {
-      return value;
+    return value;
   }
 }
 export default class Form extends Component {
@@ -210,7 +210,7 @@ Form.create = (param = {}) => {
                 this.validate(v);
               }
             }
-            let mergeprops = Object.assign({autoFocus :true}, this.props, override);
+            let mergeprops = Object.assign({ autoFocus: true }, this.props, override);
             if (typeof this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
               mergeprops.className = this.props.className + ' ' + override.className;
             }
@@ -219,17 +219,17 @@ Form.create = (param = {}) => {
             mergeprops.onLoad = ref => {
               this.ref = ref;
             }
-            
-            let newdom= React.cloneElement(WrapComponent, mergeprops);
+
+            let newdom = React.cloneElement(WrapComponent, mergeprops);
             if (!this.state.validateStatus) {
-              getI18n(title,mergeprops.locale)
-              newdom = React.createElement(Tooltip,{title,trigger:'focus|hover'},newdom);
+              getI18n(title, mergeprops.locale)
+              newdom = React.createElement(Tooltip, { title, trigger: 'focus|hover' }, newdom);
             }
             return newdom;
           }
         }
         // let props = this.formControl[name];
-        Cls.displayName='formItem';
+        Cls.displayName = 'formItem';
         this.formControl[cname] = new EventEmitter();
         return <Cls />;
         // return <Cls {...props}/>
@@ -254,6 +254,7 @@ Form.create = (param = {}) => {
     },
     setv(obj, path) {
       for (let k in obj) {
+        if (k === 'children') continue;
         path.push(k)
         if (typeof obj[k] === 'object') {
           this.setv(obj[k], path)
