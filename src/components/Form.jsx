@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 import FormItem from './FormItem';
-import { EventEmitter } from 'events';
+// import { EventEmitter } from 'events';
 import Tooltip from 'antd/lib/tooltip';
 // import 'antd/lib/tooltip/style/css';
 
@@ -65,6 +65,7 @@ function setValue(v, na, formData) {
 }
 Form.create = (param = {}) => {
   let prefix = param.name;
+  const FormContext = React.createContext(prefix);
   let form = {
     formData: {},
     formControl: {},
@@ -90,15 +91,19 @@ Form.create = (param = {}) => {
             // console.log(self)
             // formData[cname] = v;
             this.setFormData(name, v);
+            self.formControl[cname] = this;
           }
           componentDidMount() {
-            self.formControl[cname].on('setValue', v => {
-              this.setState({ v });
-            });
-            self.formControl[cname].on('validate', (callback) => {
-              this.validate(this.state.v);
-              callback(self.validator[cname]);
-            });
+            // self.formControl[cname].on('setValue', v => {
+            //   this.setState({ v });
+            // });
+            // self.formControl[cname].on('validate', (callback) => {
+            //   this.validate(this.state.v);
+            //   callback(self.validator[cname]);
+            // });
+          }
+          setValue(v){
+            this.setState({v})
           }
           componentWillReceiveProps(newProps) {
             let nv = newProps.value;
@@ -108,6 +113,9 @@ Form.create = (param = {}) => {
             if (newProps.value != this.state.v) {
               this.setState({ v: newProps.value })
             }
+          }
+          validateValue(){
+            this.validate(this.state.v);
           }
           validate(v) {
             let rules = obj.rules || [];
@@ -162,6 +170,21 @@ Form.create = (param = {}) => {
                       isvalid = false;
                       msg = r.message;
                     }
+                    break;
+                  }
+                  case 'async':{
+                    let m = r.async || 'asyncValidate';
+                    this.ref[m](v).then(()=>{
+                      if(isvalid){
+                        self.validator[cname] = { validateStatus: true };
+                        this.setState({ validateStatus: true });
+                      }
+                    }).catch((res)=>{
+                      isvalid = false;
+                      msg = res ||r.message;
+                      self.validator[cname] = { validateStatus: false, msg };
+                      this.setState({ validateStatus: false, msg })
+                    });
                     break;
                   }
                 }
@@ -230,7 +253,7 @@ Form.create = (param = {}) => {
         }
         // let props = this.formControl[name];
         Cls.displayName = 'formItem';
-        this.formControl[cname] = new EventEmitter();
+        // this.formControl[cname] = new EventEmitter();
         return <Cls />;
         // return <Cls {...props}/>
       }
@@ -251,6 +274,7 @@ Form.create = (param = {}) => {
       //   this.formControl[k].emit('setValue', param[k]);
       // }
       this.setv(param, [])
+      console.log(this.formData)
     },
     setv(obj, path) {
       for (let k in obj) {
@@ -259,9 +283,12 @@ Form.create = (param = {}) => {
         if (typeof obj[k] === 'object') {
           this.setv(obj[k], path)
         } else {
-          // console.log(path.join('.') +':'+ obj[k])
-          let eventer = this.formControl[path.join('.')];
-          eventer && eventer.emit('setValue', obj[k]);
+          console.log(path.join('.') +':'+ obj[k])
+          // let eventer = this.formControl[path.join('.')];
+          // eventer && eventer.emit('setValue', obj[k]);
+          // this.formData[path.join('.')] = obj[k];
+          // setValue(obj[k],path.join('.').split('.'),this.formData);
+          this.formControl[path.join('.')] && this.formControl[path.join('.')].setValue(obj[k]);
           path.pop()
         }
       }
@@ -278,19 +305,32 @@ Form.create = (param = {}) => {
       if (fields.length == 0) {
         for (let k in this.formControl) {
           promiseArr.push(new Promise(resolve => {
-            this.formControl[k].emit('validate', res => {
-              result[k] = res;
-              resolve(result)
-            });
+            if( this.formControl[k] ){
+              this.formControl[k].validateValue()
+              result[k] = this.validator[k];
+              resolve(result);
+            }else{
+              resolve({});
+            }
+            // this.formControl[k].emit('validate', res => {
+            //   result[k] = res;
+            //   resolve(result)
+            // });
           }))
         }
       } else {
         for (let k in fields) {
           promiseArr.push(new Promise(resolve => {
-            this.formControl[fields[k]].emit('validate', res => {
-              result[fields[k]] = res;
+            if(this.formControl[fields[k]]){
+              result[fields[k]] =  this.validator[fields[k]];
               resolve(result)
-            });
+            }else{
+              resolve({});
+            }
+            // this.formControl[fields[k]].emit('validate', res => {
+            //   result[fields[k]] = res;
+            //   resolve(result)
+            // });
           }))
         }
       }

@@ -64,7 +64,8 @@ npm install xui-form --save
 | min | 最小值 | number |
 | max | 最大值 | number | 
 | pattern | 正则表达式 | Regex | |
-| custom | 自定义验证 | function | |
+| custom | 自定义验证 | string | 需要在组件的构造函数中调用` this.props.onLoad(this)`，然后声明对应的验证方法，返回`true`或`false` |
+| async | 异步验证 | string | 异步验证需要在组件中定义对应的方法，接收value值并返回`promise` |
 ### 关于作者
 [https://github.com/tianxiangbing](https://github.com/tianxiangbing)
 
