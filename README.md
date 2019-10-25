@@ -66,6 +66,49 @@ npm install xui-form --save
 | pattern | 正则表达式 | Regex | |
 | custom | 自定义验证 | string | 需要在组件的构造函数中调用` this.props.onLoad(this)`，然后声明对应的验证方法，返回`true`或`false` |
 | async | 异步验证 | string | 异步验证需要在组件中定义对应的方法，接收value值并返回`promise` |
+### 全局添加验证规则
+```
+Form.addMethod('testRule',(v)=>{
+  if(v=='123'){
+    return false;
+  }else{
+    return true;
+  }
+})
+```
+### 异步验证
+```
+  asyncValidate(v) {
+    return new Promise((resovle, reject) => {
+      fetch('http://192.168.80.37:8080/demo/del.action', {
+        method: 'POST'
+      }).then(function (response) {
+        return response.json();
+      }).then(res => {
+        console.log(res)
+        if (res.success) {
+          resovle();
+        } else {
+          reject('ajax error')
+        }
+      })
+    })
+  }
+```
+```
+{getFieldDecorator('biz.password.txb', {
+            rules: [{
+              required: true, message: '密码必填项'
+            }, {
+              custom: 'validate', message: "自定义验证"
+            },
+            {
+              async: 'asyncValidate', message: "异步验证"
+            }]
+          })(
+            <NewPassWord ref={ref => this.passRef = ref} />
+          )}
+```
 ### 关于作者
 [https://github.com/tianxiangbing](https://github.com/tianxiangbing)
 

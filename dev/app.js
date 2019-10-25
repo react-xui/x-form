@@ -6,7 +6,13 @@ import { Input } from 'jsx-input';
 import Select from 'jsx-select';
 import 'jsx-select/lib/index.css'
 const { Option } = Select;
-
+Form.addMethod('testRule',(v)=>{
+  if(v=='123'){
+    return false;
+  }else{
+    return true;
+  }
+})
 var appElement = document.getElementById('example');
 // const {getFieldDecorator,getFormData} = Form;
 class App1 extends React.Component {
@@ -150,7 +156,8 @@ class App2 extends React.Component {
           {getFieldDecorator('obj.name', {
             value: '1234',
             rules: [{
-              required: true, message: '名称必填项'
+              required: true, message: '名称必填项',
+              'testRule':true,message:'not 123'
             }]
           })(
             <Input onChange={this.onChange.bind(this)} />

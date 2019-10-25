@@ -208,11 +208,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var cls = (this.props.className || "") + ' x-form';
 	      return _react2.default.createElement('form', _extends({ className: cls }, this.props, { onSubmit: this.onSubmit }));
 	    }
+	  }], [{
+	    key: 'addMethod',
+	    //自定义的规则
+	    value: function addMethod(rule, callback) {
+	      Form.methods[rule] = callback;
+	    }
 	  }]);
 
 	  return Form;
 	}(_react.Component);
 
+	Form.methods = {};
 	exports.default = Form;
 
 	Form.Item = _FormItem2.default;
@@ -388,6 +395,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	                          self.validator[cname] = { validateStatus: false, msg: msg };
 	                          _this3.setState({ validateStatus: false, msg: msg });
 	                        });
+	                        break;
+	                      }
+	                    default:
+	                      {
+	                        //取全局定义的验证规则
+	                        if (Form.methods[k]) {
+	                          if (!Form.methods[k](v)) {
+	                            isvalid = false;
+	                            msg = r.message;
+	                          }
+	                        }
 	                        break;
 	                      }
 	                  }

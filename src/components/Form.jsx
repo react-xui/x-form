@@ -32,6 +32,10 @@ const getI18n = (key, d = {}) => {
   }
 }
 export default class Form extends Component {
+  static methods={};//自定义的规则
+  static addMethod(rule,callback){
+    Form.methods[rule] = callback;
+  }
   onSubmit = (event) => {
     event.preventDefault();
     this.props.onSubmit && this.props.onSubmit(event);
@@ -185,6 +189,16 @@ Form.create = (param = {}) => {
                       self.validator[cname] = { validateStatus: false, msg };
                       this.setState({ validateStatus: false, msg })
                     });
+                    break;
+                  }
+                  default:{
+                    //取全局定义的验证规则
+                    if(Form.methods[k]){
+                      if(!Form.methods[k](v)){
+                        isvalid = false;
+                        msg = r.message;
+                      }
+                    }
                     break;
                   }
                 }
