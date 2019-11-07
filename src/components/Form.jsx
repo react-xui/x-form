@@ -194,7 +194,7 @@ Form.create = (param = {}) => {
                   default:{
                     //取全局定义的验证规则
                     if(Form.methods[k]){
-                      if(!Form.methods[k](v)){
+                      if(!Form.methods[k](v,this.props,self.getFormData())){
                         isvalid = false;
                         msg = r.message;
                       }
@@ -228,7 +228,7 @@ Form.create = (param = {}) => {
             // console.log(WrapComponent)
             //对trigger进行合并，先执行内部的change方法
             override[triggerName] = (v) => {
-              WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](v) : null;
+              WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName].call(this,v) : null;
               // formData[cname] = v;
               this.setFormData(name, v);
               // if(triggerName==='onChange'){

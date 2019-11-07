@@ -401,7 +401,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                      {
 	                        //取全局定义的验证规则
 	                        if (Form.methods[k]) {
-	                          if (!Form.methods[k](v)) {
+	                          if (!Form.methods[k](v, _this3.props, self.getFormData())) {
 	                            isvalid = false;
 	                            msg = r.message;
 	                          }
@@ -444,7 +444,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              // console.log(WrapComponent)
 	              //对trigger进行合并，先执行内部的change方法
 	              override[triggerName] = function (v) {
-	                WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName](v) : null;
+	                WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName].call(_this4, v) : null;
 	                // formData[cname] = v;
 	                _this4.setFormData(name, v);
 	                // if(triggerName==='onChange'){

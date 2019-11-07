@@ -1,3 +1,10 @@
+/*
+ * @Descripttion: 
+ * @Author: tianxiangbing
+ * @Date: 2019-03-12 11:32:14
+ * @LastEditTime: 2019-11-04 17:12:09
+ * @github: https://github.com/tianxiangbing
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Form from '../src/index';
@@ -6,9 +13,9 @@ import { Input } from 'jsx-input';
 import Select from 'jsx-select';
 import 'jsx-select/lib/index.css'
 const { Option } = Select;
-Form.addMethod('testRule',(v)=>{
+Form.addMethod('testRule',(v,props,data)=>{
   if(v=='123'){
-    return false;
+    return {success:false,msg:'最大值'};
   }else{
     return true;
   }
@@ -129,9 +136,9 @@ class App2 extends React.Component {
     validateFields(['obj.name'], function (arg) {
       console.log(arg, 1111)
     });
-    validateFields([], function (arg) {
-      console.log(arg, 2222)
-    });
+    // validateFields([], function (arg) {
+    //   console.log(arg, 2222)
+    // });
   }
   onChange() {
     // alert(1)
