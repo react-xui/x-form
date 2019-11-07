@@ -227,38 +227,39 @@ Form.create = (param = {}) => {
             // override["title"] = title;
             // console.log(WrapComponent)
             //对trigger进行合并，先执行内部的change方法
-            override[triggerName] = (v) => {
+            let _this = this;
+            override[triggerName] = function(v){
               WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName].call(this,v) : null;
               // formData[cname] = v;
-              this.setFormData(name, v);
+              _this.setFormData(name, v);
               // if(triggerName==='onChange'){
               // debugger;
               if (typeof v === 'object' && v.constructor.name === 'SyntheticEvent') {
                 v = v.currentTarget.value;
               }
-              this.setState({ v });
+              _this.setState({ v });
               // }
               if (triggerName === validateTrigger) {
-                this.validate(v);
+                _this.validate(v);
               }
             }
             if (validateTrigger !== 'onChange') {
               override[validateTrigger] = (v) => {
-                this.validate(v);
+                _this.validate(v);
               }
             }
-            let mergeprops = Object.assign({ autoFocus: true }, this.props, override);
-            if (typeof this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
-              mergeprops.className = this.props.className + ' ' + override.className;
+            let mergeprops = Object.assign({ autoFocus: true }, _this.props, override);
+            if (typeof _this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
+              mergeprops.className = _this.props.className + ' ' + override.className;
             }
             // this.ref = React.createRef();
             // mergeprops.ref = this.ref;
             mergeprops.onLoad = ref => {
-              this.ref = ref;
+              _this.ref = ref;
             }
 
             let newdom = React.cloneElement(WrapComponent, mergeprops);
-            if (!this.state.validateStatus) {
+            if (!_this.state.validateStatus) {
               getI18n(title, mergeprops.locale)
               newdom = React.createElement(Tooltip, { title, trigger: 'focus|hover' }, newdom);
             }

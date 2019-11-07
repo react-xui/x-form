@@ -187,7 +187,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Form() {
 	    var _ref;
 
-	    var _temp, _this, _ret;
+	    var _temp, _this2, _ret;
 
 	    _classCallCheck(this, Form);
 
@@ -195,10 +195,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      args[_key] = arguments[_key];
 	    }
 
-	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Form.__proto__ || Object.getPrototypeOf(Form)).call.apply(_ref, [this].concat(args))), _this), _this.onSubmit = function (event) {
+	    return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, (_ref = Form.__proto__ || Object.getPrototypeOf(Form)).call.apply(_ref, [this].concat(args))), _this2), _this2.onSubmit = function (event) {
 	      event.preventDefault();
-	      _this.props.onSubmit && _this.props.onSubmit(event);
-	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	      _this2.props.onSubmit && _this2.props.onSubmit(event);
+	    }, _temp), _possibleConstructorReturn(_this2, _ret);
 	  }
 
 	  _createClass(Form, [{
@@ -274,15 +274,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	          function Cls(props) {
 	            _classCallCheck(this, Cls);
 
-	            var _this2 = _possibleConstructorReturn(this, (Cls.__proto__ || Object.getPrototypeOf(Cls)).call(this, props));
+	            var _this3 = _possibleConstructorReturn(this, (Cls.__proto__ || Object.getPrototypeOf(Cls)).call(this, props));
 
 	            var v = typeof obj.value === 'undefined' ? '' : obj.value;
-	            _this2.state = { v: v, validateStatus: true };
+	            _this3.state = { v: v, validateStatus: true };
 	            // console.log(self)
 	            // formData[cname] = v;
-	            _this2.setFormData(name, v);
-	            self.formControl[cname] = _this2;
-	            return _this2;
+	            _this3.setFormData(name, v);
+	            self.formControl[cname] = _this3;
+	            return _this3;
 	          }
 
 	          _createClass(Cls, [{
@@ -320,7 +320,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }, {
 	            key: 'validate',
 	            value: function validate(v) {
-	              var _this3 = this;
+	              var _this4 = this;
 
 	              var rules = obj.rules || [];
 	              // let v = this.state.v;
@@ -375,7 +375,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    case 'custom':
 	                      {
 	                        var m = r.custom || 'validate';
-	                        if (!_this3.ref[m](v)) {
+	                        if (!_this4.ref[m](v)) {
 	                          isvalid = false;
 	                          msg = r.message;
 	                        }
@@ -384,16 +384,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    case 'async':
 	                      {
 	                        var _m = r.async || 'asyncValidate';
-	                        _this3.ref[_m](v).then(function () {
+	                        _this4.ref[_m](v).then(function () {
 	                          if (isvalid) {
 	                            self.validator[cname] = { validateStatus: true };
-	                            _this3.setState({ validateStatus: true });
+	                            _this4.setState({ validateStatus: true });
 	                          }
 	                        }).catch(function (res) {
 	                          isvalid = false;
 	                          msg = res || r.message;
 	                          self.validator[cname] = { validateStatus: false, msg: msg };
-	                          _this3.setState({ validateStatus: false, msg: msg });
+	                          _this4.setState({ validateStatus: false, msg: msg });
 	                        });
 	                        break;
 	                      }
@@ -401,7 +401,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                      {
 	                        //取全局定义的验证规则
 	                        if (Form.methods[k]) {
-	                          if (!Form.methods[k](v, _this3.props, self.getFormData())) {
+	                          if (!Form.methods[k](v, _this4.props, self.getFormData())) {
 	                            isvalid = false;
 	                            msg = r.message;
 	                          }
@@ -426,8 +426,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }, {
 	            key: 'render',
 	            value: function render() {
-	              var _this4 = this;
-
 	              var override = {
 	                value: this.state.v
 	              };
@@ -443,38 +441,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	              // override["title"] = title;
 	              // console.log(WrapComponent)
 	              //对trigger进行合并，先执行内部的change方法
+	              var _this = this;
 	              override[triggerName] = function (v) {
-	                WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName].call(_this4, v) : null;
+	                WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName].call(this, v) : null;
 	                // formData[cname] = v;
-	                _this4.setFormData(name, v);
+	                _this.setFormData(name, v);
 	                // if(triggerName==='onChange'){
 	                // debugger;
 	                if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object' && v.constructor.name === 'SyntheticEvent') {
 	                  v = v.currentTarget.value;
 	                }
-	                _this4.setState({ v: v });
+	                _this.setState({ v: v });
 	                // }
 	                if (triggerName === validateTrigger) {
-	                  _this4.validate(v);
+	                  _this.validate(v);
 	                }
 	              };
 	              if (validateTrigger !== 'onChange') {
 	                override[validateTrigger] = function (v) {
-	                  _this4.validate(v);
+	                  _this.validate(v);
 	                };
 	              }
-	              var mergeprops = _extends({ autoFocus: true }, this.props, override);
-	              if (typeof this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
-	                mergeprops.className = this.props.className + ' ' + override.className;
+	              var mergeprops = _extends({ autoFocus: true }, _this.props, override);
+	              if (typeof _this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
+	                mergeprops.className = _this.props.className + ' ' + override.className;
 	              }
 	              // this.ref = React.createRef();
 	              // mergeprops.ref = this.ref;
 	              mergeprops.onLoad = function (ref) {
-	                _this4.ref = ref;
+	                _this.ref = ref;
 	              };
 
 	              var newdom = _react2.default.cloneElement(WrapComponent, mergeprops);
-	              if (!this.state.validateStatus) {
+	              if (!_this.state.validateStatus) {
 	                getI18n(title, mergeprops.locale);
 	                newdom = _react2.default.createElement(_tooltip2.default, { title: title, trigger: 'focus|hover' }, newdom);
 	              }
