@@ -76,6 +76,16 @@ Form.addMethod('testRule',(v)=>{
   }
 })
 ```
+或者自定义提示信息
+```
+Form.addMethod('testRule',(v,props,data)=>{
+  if(v=='123'){
+    return {success:false,message:'最大值'};
+  }else{
+    return true;
+  }
+})
+```
 ### 异步验证
 ```
   asyncValidate(v) {

@@ -375,7 +375,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    case 'custom':
 	                      {
 	                        var m = r.custom || 'validate';
-	                        if (!_this4.ref[m](v)) {
+	                        var res = _this4.ref[m](v);
+	                        if ((typeof res === 'undefined' ? 'undefined' : _typeof(res)) === 'object' && !res.success) {
+	                          msg = res.message;
+	                          isvalid = false;
+	                        } else if (!res) {
 	                          isvalid = false;
 	                          msg = r.message;
 	                        }
@@ -401,7 +405,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                      {
 	                        //取全局定义的验证规则
 	                        if (Form.methods[k]) {
-	                          if (!Form.methods[k](v, _this4.props, self.getFormData())) {
+	                          debugger;
+	                          var _res = Form.methods[k](v, _this4.props, self.getFormData());
+	                          if ((typeof _res === 'undefined' ? 'undefined' : _typeof(_res)) === 'object' && !_res.success) {
+	                            msg = _res.message;
+	                            isvalid = false;
+	                          } else if (!_res) {
 	                            isvalid = false;
 	                            msg = r.message;
 	                          }
@@ -475,7 +484,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              var newdom = _react2.default.cloneElement(WrapComponent, mergeprops);
 	              if (!_this.state.validateStatus) {
 	                getI18n(title, mergeprops.locale);
-	                newdom = _react2.default.createElement(_tooltip2.default, { title: title, trigger: 'focus|hover' }, newdom);
+	                newdom = _react2.default.createElement(_tooltip2.default, { visible: true, title: title, trigger: 'focus|hover' }, newdom);
 	              }
 	              return newdom;
 	            }
@@ -508,7 +517,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      //   this.formControl[k].emit('setValue', param[k]);
 	      // }
 	      this.setv(param, []);
-	      console.log(this.formData);
+	      // console.log(this.formData)
 	    },
 	    setv: function setv(obj, path) {
 	      for (var k in obj) {
@@ -517,7 +526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (_typeof(obj[k]) === 'object') {
 	          this.setv(obj[k], path);
 	        } else {
-	          console.log(path.join('.') + ':' + obj[k]);
+	          // console.log(path.join('.') + ':' + obj[k])
 	          // let eventer = this.formControl[path.join('.')];
 	          // eventer && eventer.emit('setValue', obj[k]);
 	          // this.formData[path.join('.')] = obj[k];

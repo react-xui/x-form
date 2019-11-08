@@ -32,8 +32,8 @@ const getI18n = (key, d = {}) => {
   }
 }
 export default class Form extends Component {
-  static methods={};//自定义的规则
-  static addMethod(rule,callback){
+  static methods = {};//自定义的规则
+  static addMethod(rule, callback) {
     Form.methods[rule] = callback;
   }
   onSubmit = (event) => {
@@ -106,8 +106,8 @@ Form.create = (param = {}) => {
             //   callback(self.validator[cname]);
             // });
           }
-          setValue(v){
-            this.setState({v})
+          setValue(v) {
+            this.setState({ v })
           }
           componentWillReceiveProps(newProps) {
             let nv = newProps.value;
@@ -118,7 +118,7 @@ Form.create = (param = {}) => {
               this.setState({ v: newProps.value })
             }
           }
-          validateValue(){
+          validateValue() {
             this.validate(this.state.v);
           }
           validate(v) {
@@ -170,34 +170,45 @@ Form.create = (param = {}) => {
                   } break;
                   case 'custom': {
                     let m = r.custom || 'validate';
-                    if (!this.ref[m](v)) {
+                    let res = this.ref[m](v);
+                    if (typeof res === 'object' && !res.success) {
+                      msg = res.message;
+                      isvalid = false;
+                    } else
+                    if (!res) {
                       isvalid = false;
                       msg = r.message;
                     }
                     break;
                   }
-                  case 'async':{
+                  case 'async': {
                     let m = r.async || 'asyncValidate';
-                    this.ref[m](v).then(()=>{
-                      if(isvalid){
+                    this.ref[m](v).then(() => {
+                      if (isvalid) {
                         self.validator[cname] = { validateStatus: true };
                         this.setState({ validateStatus: true });
                       }
-                    }).catch((res)=>{
+                    }).catch((res) => {
                       isvalid = false;
-                      msg = res ||r.message;
+                      msg = res || r.message;
                       self.validator[cname] = { validateStatus: false, msg };
                       this.setState({ validateStatus: false, msg })
                     });
                     break;
                   }
-                  default:{
+                  default: {
                     //取全局定义的验证规则
-                    if(Form.methods[k]){
-                      if(!Form.methods[k](v,this.props,self.getFormData())){
+                    if (Form.methods[k]) {
+                      debugger
+                      let res = Form.methods[k](v, this.props, self.getFormData());
+                      if (typeof res === 'object' && !res.success) {
+                        msg = res.message;
                         isvalid = false;
-                        msg = r.message;
-                      }
+                      } else
+                        if (!res) {
+                          isvalid = false;
+                          msg = r.message;
+                        }
                     }
                     break;
                   }
@@ -228,8 +239,8 @@ Form.create = (param = {}) => {
             // console.log(WrapComponent)
             //对trigger进行合并，先执行内部的change方法
             let _this = this;
-            override[triggerName] = function(v){
-              WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName].call(this,v) : null;
+            override[triggerName] = function (v) {
+              WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName].call(this, v) : null;
               // formData[cname] = v;
               _this.setFormData(name, v);
               // if(triggerName==='onChange'){
@@ -261,7 +272,7 @@ Form.create = (param = {}) => {
             let newdom = React.cloneElement(WrapComponent, mergeprops);
             if (!_this.state.validateStatus) {
               getI18n(title, mergeprops.locale)
-              newdom = React.createElement(Tooltip, { title, trigger: 'focus|hover' }, newdom);
+              newdom = React.createElement(Tooltip, { visible: true, title, trigger: 'focus|hover' }, newdom);
             }
             return newdom;
           }
@@ -289,7 +300,7 @@ Form.create = (param = {}) => {
       //   this.formControl[k].emit('setValue', param[k]);
       // }
       this.setv(param, [])
-      console.log(this.formData)
+      // console.log(this.formData)
     },
     setv(obj, path) {
       for (let k in obj) {
@@ -298,7 +309,7 @@ Form.create = (param = {}) => {
         if (typeof obj[k] === 'object') {
           this.setv(obj[k], path)
         } else {
-          console.log(path.join('.') +':'+ obj[k])
+          // console.log(path.join('.') + ':' + obj[k])
           // let eventer = this.formControl[path.join('.')];
           // eventer && eventer.emit('setValue', obj[k]);
           // this.formData[path.join('.')] = obj[k];
@@ -320,11 +331,11 @@ Form.create = (param = {}) => {
       if (fields.length == 0) {
         for (let k in this.formControl) {
           promiseArr.push(new Promise(resolve => {
-            if( this.formControl[k] ){
+            if (this.formControl[k]) {
               this.formControl[k].validateValue()
               result[k] = this.validator[k];
               resolve(result);
-            }else{
+            } else {
               resolve({});
             }
             // this.formControl[k].emit('validate', res => {
@@ -336,10 +347,10 @@ Form.create = (param = {}) => {
       } else {
         for (let k in fields) {
           promiseArr.push(new Promise(resolve => {
-            if(this.formControl[fields[k]]){
-              result[fields[k]] =  this.validator[fields[k]];
+            if (this.formControl[fields[k]]) {
+              result[fields[k]] = this.validator[fields[k]];
               resolve(result)
-            }else{
+            } else {
               resolve({});
             }
             // this.formControl[fields[k]].emit('validate', res => {

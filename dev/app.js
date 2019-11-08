@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: tianxiangbing
  * @Date: 2019-03-12 11:32:14
- * @LastEditTime: 2019-11-04 17:12:09
+ * @LastEditTime: 2019-11-08 14:19:55
  * @github: https://github.com/tianxiangbing
  */
 import React from 'react';
@@ -15,7 +15,7 @@ import 'jsx-select/lib/index.css'
 const { Option } = Select;
 Form.addMethod('testRule',(v,props,data)=>{
   if(v=='123'){
-    return {success:false,msg:'最大值'};
+    return {success:false,message:'最大值'};
   }else{
     return true;
   }
@@ -133,7 +133,7 @@ class App2 extends React.Component {
     e.preventDefault();
     let { getFormData, validateFields } = this.props.form;
     console.log(getFormData())
-    validateFields(['obj.name'], function (arg) {
+    validateFields([], function (arg) {
       console.log(arg, 1111)
     });
     // validateFields([], function (arg) {
