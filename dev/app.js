@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: tianxiangbing
  * @Date: 2019-03-12 11:32:14
- * @LastEditTime: 2019-11-08 14:19:55
+ * @LastEditTime: 2019-11-27 15:27:21
  * @github: https://github.com/tianxiangbing
  */
 import React from 'react';
@@ -161,7 +161,18 @@ class App2 extends React.Component {
       <Form onSubmit={this.onSubmit.bind(this)}>
         <Form.Item>
           {getFieldDecorator('obj.name', {
-            value: '1234',
+            value: '',
+            rules: [{
+              required: true, message: '名称必填项',
+              'testRule':true,message:'not 123'
+            }]
+          })(
+            <Input onChange={this.onChange.bind(this)} />
+          )}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('obj.name2', {
+            value: '',
             rules: [{
               required: true, message: '名称必填项',
               'testRule':true,message:'not 123'
@@ -172,6 +183,7 @@ class App2 extends React.Component {
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('biz.password.txb', {
+            value: '',
             rules: [{
               required: true, message: '密码必填项'
             }, {

@@ -202,6 +202,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  _createClass(Form, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      // document.querySelectorAll('input').length && document.querySelectorAll('input')[0].focus()
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      // console.log(this.props)
@@ -405,7 +410,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                      {
 	                        //取全局定义的验证规则
 	                        if (Form.methods[k]) {
-	                          debugger;
+	                          // debugger
 	                          var _res = Form.methods[k](v, _this4.props, self.getFormData());
 	                          if ((typeof _res === 'undefined' ? 'undefined' : _typeof(_res)) === 'object' && !_res.success) {
 	                            msg = _res.message;
@@ -472,6 +477,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                };
 	              }
 	              var mergeprops = _extends({ autoFocus: true }, _this.props, override);
+	              if (!_this.state.validateStatus) {
+	                mergeprops.autoFocus = false;
+	              }
 	              if (typeof _this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
 	                mergeprops.className = _this.props.className + ' ' + override.className;
 	              }
@@ -484,7 +492,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	              var newdom = _react2.default.cloneElement(WrapComponent, mergeprops);
 	              if (!_this.state.validateStatus) {
 	                getI18n(title, mergeprops.locale);
-	                newdom = _react2.default.createElement(_tooltip2.default, { visible: true, title: title, trigger: 'focus|hover' }, newdom);
+	                // newdom = React.cloneElement(WrapComponent, Object.assign(mergeprops,{autoFocus:true}));
+	                newdom = _react2.default.createElement(_tooltip2.default, { title: title, trigger: 'focus|hover' }, newdom);
 	              }
 	              return newdom;
 	            }
