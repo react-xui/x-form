@@ -204,7 +204,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Form, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      // document.querySelectorAll('input').length && document.querySelectorAll('input')[0].focus()
+	      // document.body.focus();
+	      // if(document.querySelectorAll('input').length ){
+	      //   let dom = document.querySelectorAll('input')[0]
+	      //   dom.focus();
+	      //   dom.blur();
+	      // } 
 	    }
 	  }, {
 	    key: 'render',
@@ -477,9 +482,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                };
 	              }
 	              var mergeprops = _extends({ autoFocus: true }, _this.props, override);
-	              if (!_this.state.validateStatus) {
-	                mergeprops.autoFocus = false;
-	              }
+	              // if(!_this.state.validateStatus){
+	              mergeprops.autoFocus = false;
+	              // }
 	              if (typeof _this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
 	                mergeprops.className = _this.props.className + ' ' + override.className;
 	              }
@@ -490,11 +495,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	              };
 
 	              var newdom = _react2.default.cloneElement(WrapComponent, mergeprops);
-	              if (!_this.state.validateStatus) {
-	                getI18n(title, mergeprops.locale);
-	                // newdom = React.cloneElement(WrapComponent, Object.assign(mergeprops,{autoFocus:true}));
-	                newdom = _react2.default.createElement(_tooltip2.default, { title: title, trigger: 'focus|hover' }, newdom);
-	              }
+	              // if (!_this.state.validateStatus) {
+	              getI18n(title, mergeprops.locale);
+	              // newdom = React.cloneElement(WrapComponent, Object.assign(mergeprops,{autoFocus:true}));
+	              // console.log(1111,title,!_this.state.validateStatus)
+	              newdom = _react2.default.createElement(_tooltip2.default, { title: title, trigger: 'focus|hover' }, newdom);
+	              // }
 	              return newdom;
 	            }
 	          }]);

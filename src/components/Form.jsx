@@ -37,7 +37,12 @@ export default class Form extends Component {
     Form.methods[rule] = callback;
   }
   componentDidMount(){
-    // document.querySelectorAll('input').length && document.querySelectorAll('input')[0].focus()
+    // document.body.focus();
+    // if(document.querySelectorAll('input').length ){
+    //   let dom = document.querySelectorAll('input')[0]
+    //   dom.focus();
+    //   dom.blur();
+    // } 
   }
   onSubmit = (event) => {
     event.preventDefault();
@@ -263,9 +268,9 @@ Form.create = (param = {}) => {
               }
             }
             let mergeprops = Object.assign({ autoFocus: true }, _this.props, override);
-            if(!_this.state.validateStatus){
+            // if(!_this.state.validateStatus){
               mergeprops.autoFocus = false;
-            }
+            // }
             if (typeof _this.props.className !== 'undefined' && typeof override.className !== 'undefined') {
               mergeprops.className = _this.props.className + ' ' + override.className;
             }
@@ -276,11 +281,12 @@ Form.create = (param = {}) => {
             }
 
             let newdom = React.cloneElement(WrapComponent, mergeprops);
-            if (!_this.state.validateStatus) {
+            // if (!_this.state.validateStatus) {
               getI18n(title, mergeprops.locale)
               // newdom = React.cloneElement(WrapComponent, Object.assign(mergeprops,{autoFocus:true}));
+              // console.log(1111,title,!_this.state.validateStatus)
               newdom = React.createElement(Tooltip, { title, trigger: 'focus|hover' }, newdom);
-            }
+            // }
             return newdom;
           }
         }
