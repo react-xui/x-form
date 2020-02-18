@@ -20,6 +20,7 @@ Form.addMethod('testRule',(v,props,data)=>{
     return true;
   }
 })
+Form.autoShowTip = true;
 var appElement = document.getElementById('example');
 // const {getFieldDecorator,getFormData} = Form;
 class App1 extends React.Component {
