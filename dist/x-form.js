@@ -296,6 +296,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 
 	          _createClass(Cls, [{
+	            key: 'componentWillUnmount',
+	            value: function componentWillUnmount() {
+	              delete this.formControl[cname];
+	            }
+	          }, {
 	            key: 'componentDidMount',
 	            value: function componentDidMount() {
 	              // self.formControl[cname].on('setValue', v => {
@@ -416,7 +421,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        //取全局定义的验证规则
 	                        if (Form.methods[k]) {
 	                          // debugger
-	                          var _res = Form.methods[k](v, _this4.props, self.getFormData());
+	                          var _res = Form.methods[k].call(_this4, v, _this4.props, self.getFormData());
 	                          if ((typeof _res === 'undefined' ? 'undefined' : _typeof(_res)) === 'object' && !_res.success) {
 	                            msg = _res.message;
 	                            isvalid = false;

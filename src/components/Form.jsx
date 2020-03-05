@@ -105,6 +105,9 @@ Form.create = (param = {}) => {
             this.setFormData(name, v);
             self.formControl[cname] = this;
           }
+          componentWillUnmount(){
+            delete this.formControl[cname];
+          }
           componentDidMount() {
             // self.formControl[cname].on('setValue', v => {
             //   this.setState({ v });
@@ -208,7 +211,7 @@ Form.create = (param = {}) => {
                     //取全局定义的验证规则
                     if (Form.methods[k]) {
                       // debugger
-                      let res = Form.methods[k](v, this.props, self.getFormData());
+                      let res = Form.methods[k].call(this,v, this.props, self.getFormData());
                       if (typeof res === 'object' && !res.success) {
                         msg = res.message;
                         isvalid = false;
