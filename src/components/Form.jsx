@@ -107,7 +107,7 @@ Form.create = (param = {}) => {
             self.formControl[cname] = this;
           }
           componentWillUnmount(){
-            delete this.formControl[cname];
+            delete self.formControl[cname];
           }
           componentDidMount() {
             // self.formControl[cname].on('setValue', v => {

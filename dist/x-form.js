@@ -299,7 +299,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          _createClass(Cls, [{
 	            key: 'componentWillUnmount',
 	            value: function componentWillUnmount() {
-	              delete this.formControl[cname];
+	              delete self.formControl[cname];
 	            }
 	          }, {
 	            key: 'componentDidMount',
