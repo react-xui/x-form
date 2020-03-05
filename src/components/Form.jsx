@@ -36,6 +36,7 @@ export default class Form extends Component {
   static addMethod(rule, callback) {
     Form.methods[rule] = callback;
   }
+  static autoShowTip = false;
   componentDidMount(){
     // document.body.focus();
     // if(document.querySelectorAll('input').length ){
@@ -285,10 +286,17 @@ Form.create = (param = {}) => {
 
             let newdom = React.cloneElement(WrapComponent, mergeprops);
             // if (!_this.state.validateStatus) {
-              getI18n(title, mergeprops.locale)
-              // newdom = React.cloneElement(WrapComponent, Object.assign(mergeprops,{autoFocus:true}));
-              // console.log(1111,title,!_this.state.validateStatus)
-              newdom = React.createElement(Tooltip, { title, trigger: 'focus|hover' }, newdom);
+              // getI18n(title, mergeprops.locale)
+              // // newdom = React.cloneElement(WrapComponent, Object.assign(mergeprops,{autoFocus:true}));
+              // // console.log(1111,title,!_this.state.validateStatus)
+              let prop=  { title, trigger: 'focus|hover' };
+              if(Form.autoShowTip && !_this.state.validateStatus){
+                prop.visible = true;
+                prop.getPopupContainer = triggerNode=>{
+                  return triggerNode.parentNode
+                }
+              }
+              newdom = React.createElement(Tooltip, prop, newdom);
             // }
             return newdom;
           }
@@ -315,8 +323,14 @@ Form.create = (param = {}) => {
       //   // this.formControl[k] = {value : param[k]};
       //   this.formControl[k].emit('setValue', param[k]);
       // }
-      this.setv(param, [])
+      this.setv2(param, [])
       // console.log(this.formData)
+    },
+    setv2(obj,path){
+      for(let name in this.formControl){
+        let value = getValue(obj,name.split('.'))
+        this.formControl[name].setValue(value);
+      }
     },
     setv(obj, path) {
       for (let k in obj) {
