@@ -462,6 +462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                className = 'validate-error';
 	                title = this.state.msg;
 	              }
+	              console.log(this.props, 1111212);
 	              override["className"] = className;
 	              // override["title"] = title;
 	              // console.log(WrapComponent)
@@ -476,7 +477,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object' && v.constructor.name === 'SyntheticEvent') {
 	                  v = v.currentTarget.value;
 	                }
-	                _this.setState({ v: v });
+	                _this.setState({ v: v }, function () {
+	                  if (_this.props[triggerName]) {
+	                    _this.props[triggerName](v, e);
+	                  }
+	                });
 	                // }
 	                if (triggerName === validateTrigger) {
 	                  _this.validate(v);
