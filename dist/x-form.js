@@ -462,7 +462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                className = 'validate-error';
 	                title = this.state.msg;
 	              }
-	              console.log(this.props, 1111212);
+	              // console.log(this.props,1111212)
 	              override["className"] = className;
 	              // override["title"] = title;
 	              // console.log(WrapComponent)
