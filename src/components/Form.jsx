@@ -263,7 +263,7 @@ Form.create = (param = {}) => {
               }
               _this.setState({ v },()=>{
                 if(_this.props[triggerName]){
-                  _this.props[triggerName](v,e);
+                  _this.props[triggerName].call(this,v);
                 }
               });
               // }
