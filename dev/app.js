@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: tianxiangbing
  * @Date: 2019-03-12 11:32:14
- * @LastEditTime: 2020-03-09 16:56:16
+ * @LastEditTime: 2020-03-23 11:49:08
  * @github: https://github.com/tianxiangbing
  */
 import React from 'react';
@@ -159,6 +159,9 @@ class App2 extends React.Component {
       xxx: 'yyy'
     });
   }
+  onBlur(v){
+    this.forceUpdate();
+  }
   render() {
     // debugger;
     let { getFieldDecorator } = this.props.form;
@@ -198,7 +201,7 @@ class App2 extends React.Component {
               async: 'asyncValidate', message: "异步验证"
             }]
           })(
-            <NewPassWord ref={ref => this.passRef = ref} />
+            <NewPassWord ref={ref => this.passRef = ref} onBlur={this.onBlur.bind(this)}/>
           )}
         </Form.Item>
         <Form.Item>

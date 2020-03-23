@@ -260,7 +260,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    formData: {},
 	    formControl: {},
 	    validator: {},
+	    caches: {},
 	    getFieldDecorator: function getFieldDecorator(name, obj) {
+	      var _this6 = this;
+
 	      var triggerName = obj.trigger || "onChange";
 	      var validateTrigger = obj.validateTrigger || "onChange";
 	      var self = this;
@@ -531,8 +534,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	        Cls.displayName = 'formItem';
+	        _this6.caches[cname] = _this6.caches[cname] || _react2.default.createElement(Cls, null);
 	        // this.formControl[cname] = new EventEmitter();
-	        return _react2.default.createElement(Cls, null);
+	        return _this6.caches[cname];
 	        // return <Cls {...props}/>
 	      };
 	    },
@@ -581,7 +585,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    //验证form
 	    validateFields: function validateFields() {
-	      var _this6 = this;
+	      var _this7 = this;
 
 	      var fields = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
@@ -595,9 +599,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (fields.length == 0) {
 	        var _loop2 = function _loop2(k) {
 	          promiseArr.push(new Promise(function (resolve) {
-	            if (_this6.formControl[k]) {
-	              _this6.formControl[k].validateValue();
-	              result[k] = _this6.validator[k];
+	            if (_this7.formControl[k]) {
+	              _this7.formControl[k].validateValue();
+	              result[k] = _this7.validator[k];
 	              resolve(result);
 	            } else {
 	              resolve({});
@@ -615,8 +619,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        var _loop3 = function _loop3(k) {
 	          promiseArr.push(new Promise(function (resolve) {
-	            if (_this6.formControl[fields[k]]) {
-	              result[fields[k]] = _this6.validator[fields[k]];
+	            if (_this7.formControl[fields[k]]) {
+	              result[fields[k]] = _this7.validator[fields[k]];
 	              resolve(result);
 	            } else {
 	              resolve({});

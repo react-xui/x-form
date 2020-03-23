@@ -83,6 +83,7 @@ Form.create = (param = {}) => {
     formData: {},
     formControl: {},
     validator: {},
+    caches:{},
     getFieldDecorator(name, obj) {
       let triggerName = obj.trigger || "onChange";
       let validateTrigger = obj.validateTrigger || "onChange";
@@ -308,8 +309,9 @@ Form.create = (param = {}) => {
         }
         // let props = this.formControl[name];
         Cls.displayName = 'formItem';
+        this.caches[cname]=this.caches[cname]|| <Cls />;
         // this.formControl[cname] = new EventEmitter();
-        return <Cls />;
+        return  this.caches[cname];
         // return <Cls {...props}/>
       }
     },
