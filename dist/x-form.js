@@ -260,9 +260,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    formData: {},
 	    formControl: {},
 	    validator: {},
-	    caches: {},
+	    // caches:{},
 	    getFieldDecorator: function getFieldDecorator(name, obj) {
-	      var _this6 = this;
+	      var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
 
 	      var triggerName = obj.trigger || "onChange";
 	      var validateTrigger = obj.validateTrigger || "onChange";
@@ -271,6 +271,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var formData = this.formData;
 	      return function (WrapComponent) {
 	        var cname = prefix ? prefix + '.' + name : name;
+	        id != '' ? cname += '.' + id : null;
 
 	        var Cls = function (_Component2) {
 	          _inherits(Cls, _Component2);
@@ -534,9 +535,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	        Cls.displayName = 'formItem';
-	        _this6.caches[cname] = _this6.caches[cname] || _react2.default.createElement(Cls, null);
+	        // this.caches[cname]=this.caches[cname]|| <Cls />;
 	        // this.formControl[cname] = new EventEmitter();
-	        return _this6.caches[cname];
+	        // return  this.caches[cname];
+	        return _react2.default.createElement(Cls, { id: id });
 	        // return <Cls {...props}/>
 	      };
 	    },
@@ -585,7 +587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    //验证form
 	    validateFields: function validateFields() {
-	      var _this7 = this;
+	      var _this6 = this;
 
 	      var fields = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
@@ -599,9 +601,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (fields.length == 0) {
 	        var _loop2 = function _loop2(k) {
 	          promiseArr.push(new Promise(function (resolve) {
-	            if (_this7.formControl[k]) {
-	              _this7.formControl[k].validateValue();
-	              result[k] = _this7.validator[k];
+	            if (_this6.formControl[k]) {
+	              _this6.formControl[k].validateValue();
+	              result[k] = _this6.validator[k];
 	              resolve(result);
 	            } else {
 	              resolve({});
@@ -619,8 +621,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        var _loop3 = function _loop3(k) {
 	          promiseArr.push(new Promise(function (resolve) {
-	            if (_this7.formControl[fields[k]]) {
-	              result[fields[k]] = _this7.validator[fields[k]];
+	            if (_this6.formControl[fields[k]]) {
+	              result[fields[k]] = _this6.validator[fields[k]];
 	              resolve(result);
 	            } else {
 	              resolve({});

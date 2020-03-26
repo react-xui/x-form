@@ -83,8 +83,8 @@ Form.create = (param = {}) => {
     formData: {},
     formControl: {},
     validator: {},
-    caches:{},
-    getFieldDecorator(name, obj) {
+    // caches:{},
+    getFieldDecorator(name, obj,id="") {
       let triggerName = obj.trigger || "onChange";
       let validateTrigger = obj.validateTrigger || "onChange";
       let self = this;
@@ -92,6 +92,7 @@ Form.create = (param = {}) => {
       let formData = this.formData;
       return (WrapComponent) => {
         let cname = prefix ? prefix + '.' + name : name;
+        id!='' ? cname += `.${id}`:null;
         class Cls extends Component {
           // return hoistNonReactStatics(WrapComponent,<Item/>)
           setFormData(name, v) {
@@ -309,9 +310,10 @@ Form.create = (param = {}) => {
         }
         // let props = this.formControl[name];
         Cls.displayName = 'formItem';
-        this.caches[cname]=this.caches[cname]|| <Cls />;
+        // this.caches[cname]=this.caches[cname]|| <Cls />;
         // this.formControl[cname] = new EventEmitter();
-        return  this.caches[cname];
+        // return  this.caches[cname];
+        return <Cls id={id}/>;
         // return <Cls {...props}/>
       }
     },

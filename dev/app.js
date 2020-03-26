@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: tianxiangbing
  * @Date: 2019-03-12 11:32:14
- * @LastEditTime: 2020-03-23 11:49:08
+ * @LastEditTime: 2020-03-26 15:53:06
  * @github: https://github.com/tianxiangbing
  */
 import React from 'react';
@@ -43,6 +43,15 @@ class App1 extends React.Component {
     let { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.onSubmit.bind(this)} >
+        <Form.Item>
+          {getFieldDecorator('obj.name', { value: '' , rules: [
+              {
+                required: true, message: '必填项'
+              }
+          ]})(
+            <Input onChange={this.onChange.bind(this)} />
+          )}
+        </Form.Item>
         <Form.Item>
           {getFieldDecorator('obj.name', { value: '' , rules: [
               {
