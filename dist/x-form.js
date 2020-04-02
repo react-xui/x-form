@@ -473,8 +473,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	              //对trigger进行合并，先执行内部的change方法
 	              var _this = this;
 	              override[triggerName] = function (v) {
-	                var _this5 = this;
-
 	                WrapComponent.props.hasOwnProperty(triggerName) ? WrapComponent.props[triggerName].call(this, v) : null;
 	                // formData[cname] = v;
 	                _this.setFormData(name, v);
@@ -484,9 +482,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                  v = v.currentTarget.value;
 	                }
 	                _this.setState({ v: v }, function () {
-	                  if (_this.props[triggerName]) {
-	                    _this.props[triggerName].call(_this5, v);
-	                  }
+	                  // if(_this.props[triggerName]){
+	                  //   _this.props[triggerName].call(this,v);
+	                  // }
 	                });
 	                // }
 	                if (triggerName === validateTrigger) {
@@ -587,7 +585,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    //验证form
 	    validateFields: function validateFields() {
-	      var _this6 = this;
+	      var _this5 = this;
 
 	      var fields = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
@@ -601,9 +599,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (fields.length == 0) {
 	        var _loop2 = function _loop2(k) {
 	          promiseArr.push(new Promise(function (resolve) {
-	            if (_this6.formControl[k]) {
-	              _this6.formControl[k].validateValue();
-	              result[k] = _this6.validator[k];
+	            if (_this5.formControl[k]) {
+	              _this5.formControl[k].validateValue();
+	              result[k] = _this5.validator[k];
 	              resolve(result);
 	            } else {
 	              resolve({});
@@ -621,8 +619,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        var _loop3 = function _loop3(k) {
 	          promiseArr.push(new Promise(function (resolve) {
-	            if (_this6.formControl[fields[k]]) {
-	              result[fields[k]] = _this6.validator[fields[k]];
+	            if (_this5.formControl[fields[k]]) {
+	              result[fields[k]] = _this5.validator[fields[k]];
 	              resolve(result);
 	            } else {
 	              resolve({});

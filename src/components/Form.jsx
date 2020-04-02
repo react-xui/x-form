@@ -264,9 +264,9 @@ Form.create = (param = {}) => {
                 v = v.currentTarget.value;
               }
               _this.setState({ v },()=>{
-                if(_this.props[triggerName]){
-                  _this.props[triggerName].call(this,v);
-                }
+                // if(_this.props[triggerName]){
+                //   _this.props[triggerName].call(this,v);
+                // }
               });
               // }
               if (triggerName === validateTrigger) {
