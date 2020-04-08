@@ -387,6 +387,7 @@ Form.create = (param = {}) => {
         for (let k in fields) {
           promiseArr.push(new Promise(resolve => {
             if (this.formControl[fields[k]]) {
+              this.formControl[fields[k]].validateValue();
               result[fields[k]] = this.validator[fields[k]];
               resolve(result)
             } else {
