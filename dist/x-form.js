@@ -439,10 +439,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                      }
 	                  }
 	                }
+	                if (!isvalid) {
+	                  return 'break';
+	                }
 	              };
 
 	              for (var i = 0, l = rules.length; i < l; i++) {
-	                _loop(i, l);
+	                var _ret2 = _loop(i, l);
+
+	                if (_ret2 === 'break') break;
 	              }
 	              if (isvalid) {
 	                self.validator[cname] = { validateStatus: true };

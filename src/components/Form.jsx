@@ -228,6 +228,9 @@ Form.create = (param = {}) => {
                   }
                 }
               }
+              if(!isvalid){
+                break;
+              }
             }
             if (isvalid) {
               self.validator[cname] = { validateStatus: true };
