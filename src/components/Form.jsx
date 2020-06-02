@@ -133,7 +133,9 @@ Form.create = (param = {}) => {
             }
           }
           validateValue() {
-            this.validate(this.state.v);
+            if(!this.props.readOnly){
+              this.validate(this.state.v);
+            }
           }
           validate(v) {
             let rules = obj.rules || [];
@@ -420,6 +422,7 @@ Form.create = (param = {}) => {
   form.getFormData = form.getFormData.bind(form);
   form.setFieldsValue = form.setFieldsValue.bind(form);
   form.validateFields = form.validateFields.bind(form);
+  form.requests = [];//缓存请求
   return WrapComponent => class extends Component {
     constructor(props) {
       super(props)

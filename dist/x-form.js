@@ -335,7 +335,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }, {
 	            key: 'validateValue',
 	            value: function validateValue() {
-	              this.validate(this.state.v);
+	              if (!this.props.readOnly) {
+	                this.validate(this.state.v);
+	              }
 	            }
 	          }, {
 	            key: 'validate',
@@ -661,6 +663,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  form.getFormData = form.getFormData.bind(form);
 	  form.setFieldsValue = form.setFieldsValue.bind(form);
 	  form.validateFields = form.validateFields.bind(form);
+	  form.requests = []; //缓存请求
 	  return function (WrapComponent) {
 	    return function (_Component3) {
 	      _inherits(_class, _Component3);
