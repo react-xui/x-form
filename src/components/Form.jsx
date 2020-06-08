@@ -138,6 +138,9 @@ Form.create = (param = {}) => {
             }
           }
           validate(v) {
+            if(this.props.readOnly){
+              return;
+            }
             let rules = obj.rules || [];
             // let v = this.state.v;
             v = typeof v === 'undefined' ? '' : String(v);

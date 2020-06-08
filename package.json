@@ -1,6 +1,6 @@
 {
   "name": "xui-form",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "react xui x-form",
   "main": "./lib/index.js",
   "repository": {
@@ -16,7 +16,7 @@
     "example": "npm-run-all prepublish exserver",
     "exserver": "node scripts/dev-examples",
     "start": "node scripts/dev-src",
-    "build":"npm-run-all lib dist",
+    "build": "npm-run-all lib dist",
     "dist": "webpack --config webpack.dist.config.js",
     "lib": "babel src -d lib && webpack --config webpack.css.config.js",
     "prepublish": "npm-run-all lib build",

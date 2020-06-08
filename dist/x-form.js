@@ -344,6 +344,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value: function validate(v) {
 	              var _this4 = this;
 
+	              if (this.props.readOnly) {
+	                return;
+	              }
 	              var rules = obj.rules || [];
 	              // let v = this.state.v;
 	              v = typeof v === 'undefined' ? '' : String(v);
