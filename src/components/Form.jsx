@@ -110,6 +110,7 @@ Form.create = (param = {}) => {
           }
           componentWillUnmount(){
             delete self.formControl[cname];
+            delete self.validator[cname];
           }
           componentDidMount() {
             // self.formControl[cname].on('setValue', v => {
@@ -133,12 +134,14 @@ Form.create = (param = {}) => {
             }
           }
           validateValue() {
-            if(!this.props.readOnly){
               this.validate(this.state.v);
-            }
           }
           validate(v) {
             if(this.props.readOnly){
+              //只读的控件验证作通过
+              if(!this.state.validateStatus){
+                this.setState({ validateStatus: true })
+              }
               return;
             }
             let rules = obj.rules || [];
