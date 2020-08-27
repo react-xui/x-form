@@ -257,6 +257,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var prefix = param.name;
 	  var FormContext = _react2.default.createContext(prefix);
 	  var form = {
+	    formName: prefix,
 	    formData: {},
 	    formControl: {},
 	    validator: {},

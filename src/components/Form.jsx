@@ -80,6 +80,7 @@ Form.create = (param = {}) => {
   let prefix = param.name;
   const FormContext = React.createContext(prefix);
   let form = {
+    formName:prefix,
     formData: {},
     formControl: {},
     validator: {},
