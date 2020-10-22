@@ -330,7 +330,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              if (typeof nv === 'undefined') {
 	                nv = '';
 	              }
-	              if (newProps.value != this.state.v) {
+	              if (newProps.value !== this.state.v) {
 	                this.setState({ v: newProps.value });
 	              }
 	            }
