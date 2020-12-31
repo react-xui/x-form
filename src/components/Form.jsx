@@ -49,11 +49,16 @@ export default class Form extends Component {
     event.preventDefault();
     this.props.onSubmit && this.props.onSubmit(event);
   }
+  onKeyDown=(event)=>{
+    // if(event.keyCode ===13){
+    //   this.onSubmit(event);
+    // }
+  }
   render() {
     // console.log(this.props)
     let cls = (this.props.className || "") + ' x-form';
     return (
-      <form className={cls} {...this.props} onSubmit={this.onSubmit} />
+      <form className={cls} {...this.props} onSubmit={this.onSubmit} onClick={e=>{console.log(e)}} onKeyDown={this.onKeyDown}/>
     );
   }
 }
@@ -272,7 +277,7 @@ Form.create = (param = {}) => {
               _this.setFormData(name, v);
               // if(triggerName==='onChange'){
               // debugger;
-              if (typeof v === 'object' && v.constructor.name === 'SyntheticEvent') {
+              if (typeof v === 'object' && v.currentTarget) {
                 v = v.currentTarget.value;
               }
               _this.setState({ v },()=>{

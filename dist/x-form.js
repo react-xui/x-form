@@ -198,6 +198,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return _ret = (_temp = (_this2 = _possibleConstructorReturn(this, (_ref = Form.__proto__ || Object.getPrototypeOf(Form)).call.apply(_ref, [this].concat(args))), _this2), _this2.onSubmit = function (event) {
 	      event.preventDefault();
 	      _this2.props.onSubmit && _this2.props.onSubmit(event);
+	    }, _this2.onKeyDown = function (event) {
+	      // if(event.keyCode ===13){
+	      //   this.onSubmit(event);
+	      // }
 	    }, _temp), _possibleConstructorReturn(_this2, _ret);
 	  }
 
@@ -216,7 +220,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function render() {
 	      // console.log(this.props)
 	      var cls = (this.props.className || "") + ' x-form';
-	      return _react2.default.createElement('form', _extends({ className: cls }, this.props, { onSubmit: this.onSubmit }));
+	      return _react2.default.createElement('form', _extends({ className: cls }, this.props, { onSubmit: this.onSubmit, onClick: function onClick(e) {
+	          console.log(e);
+	        }, onKeyDown: this.onKeyDown }));
 	    }
 	  }], [{
 	    key: 'addMethod',
@@ -492,7 +498,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _this.setFormData(name, v);
 	                // if(triggerName==='onChange'){
 	                // debugger;
-	                if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object' && v.constructor.name === 'SyntheticEvent') {
+	                if ((typeof v === 'undefined' ? 'undefined' : _typeof(v)) === 'object' && v.currentTarget) {
 	                  v = v.currentTarget.value;
 	                }
 	                _this.setState({ v: v }, function () {
