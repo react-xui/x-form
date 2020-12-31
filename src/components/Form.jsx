@@ -58,7 +58,7 @@ export default class Form extends Component {
     // console.log(this.props)
     let cls = (this.props.className || "") + ' x-form';
     return (
-      <form className={cls} {...this.props} onSubmit={this.onSubmit} onClick={e=>{console.log(e)}} onKeyDown={this.onKeyDown}/>
+      <form className={cls} {...this.props} onSubmit={this.onSubmit} onKeyDown={this.onKeyDown}/>
     );
   }
 }

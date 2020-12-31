@@ -220,9 +220,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function render() {
 	      // console.log(this.props)
 	      var cls = (this.props.className || "") + ' x-form';
-	      return _react2.default.createElement('form', _extends({ className: cls }, this.props, { onSubmit: this.onSubmit, onClick: function onClick(e) {
-	          console.log(e);
-	        }, onKeyDown: this.onKeyDown }));
+	      return _react2.default.createElement('form', _extends({ className: cls }, this.props, { onSubmit: this.onSubmit, onKeyDown: this.onKeyDown }));
 	    }
 	  }], [{
 	    key: 'addMethod',
