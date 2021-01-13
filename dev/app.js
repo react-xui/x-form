@@ -2,7 +2,7 @@
  * @Descripttion: 
  * @Author: tianxiangbing
  * @Date: 2019-03-12 11:32:14
- * @LastEditTime: 2020-03-26 15:53:06
+ * @LastEditTime: 2021-01-13 09:33:06
  * @github: https://github.com/tianxiangbing
  */
 import React from 'react';
@@ -214,14 +214,44 @@ class App2 extends React.Component {
           )}
         </Form.Item>
         <Form.Item>
+          {getFieldDecorator('biz.password.txb', {
+            value: '',
+            rules: [{
+              required: true, message: '密码必填项'
+            }, {
+              custom: 'validate', message: "自定义验证"
+            },
+            {
+              async: 'asyncValidate', message: "异步验证"
+            }]
+          })(
+            <Test onChange={()=>{
+              this.forceUpdate();
+            }}/>
+          )}
+        </Form.Item>
+        <Form.Item>
           <input ref={ref => this.passRef = ref} />
         </Form.Item>
         <Form.Item>
-          <button type="submit" value="提交">提交</button>
+          <button type="submit" onClick={()=>{
+            this.forceUpdate();
+          }} value="提交">提交</button>
           <button type="button" onClick={this.clear.bind(this)}>赋值</button>
         </Form.Item>
       </Form>
     )
+  }
+}
+class Test extends React.Component{
+  onChange=()=>{
+    this.props.onChange();
+  }
+  componentWillUnmount(){
+    debugger;
+  }
+  render(){
+    return <Input onChange={this.onChange}/>
   }
 }
 let Form1 = Form.create({ name: "txb" })(App1);

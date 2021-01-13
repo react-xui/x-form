@@ -89,7 +89,7 @@ Form.create = (param = {}) => {
     formData: {},
     formControl: {},
     validator: {},
-    // caches:{},
+    caches:{},
     getFieldDecorator(name, obj,id="") {
       let triggerName = obj.trigger || "onChange";
       let validateTrigger = obj.validateTrigger || "onChange";
@@ -103,7 +103,7 @@ Form.create = (param = {}) => {
           // return hoistNonReactStatics(WrapComponent,<Item/>)
           setFormData(name, v) {
             let na = name.split('.');
-            setValue(v, na, formData);
+            setValue(v, na, this.props.formData);
           }
           constructor(props) {
             super(props)
@@ -111,12 +111,12 @@ Form.create = (param = {}) => {
             this.state = { v, validateStatus: true };
             // console.log(self)
             // formData[cname] = v;
-            this.setFormData(name, v);
-            self.formControl[cname] = this;
+            this.setFormData(this.props.name, v);
+            self.formControl[this.props.cname] = this;
           }
           componentWillUnmount(){
-            delete self.formControl[cname];
-            delete self.validator[cname];
+            delete this.props.self.formControl[this.props.cname];
+            delete this.props.self.validator[this.props.cname];
           }
           componentDidMount() {
             // self.formControl[cname].on('setValue', v => {
@@ -153,7 +153,8 @@ Form.create = (param = {}) => {
             let rules = obj.rules || [];
             // let v = this.state.v;
             v = typeof v === 'undefined' ? '' : String(v);
-            let isvalid = true, msg = ''
+            let isvalid = true, msg = '';
+            let {self,cname} =this.props;
             for (let i = 0, l = rules.length; i < l; i++) {
               let r = rules[i];
               for (let k in r) {
@@ -255,6 +256,7 @@ Form.create = (param = {}) => {
             }
           }
           render() {
+            let {name,self,cname,triggerName,validateTrigger} = this.props;
             let override = {
               value: this.state.v
             };
@@ -295,7 +297,7 @@ Form.create = (param = {}) => {
                 _this.validate(v);
               }
             }
-            let mergeprops = Object.assign({ autoFocus: true }, _this.props, override);
+            let mergeprops = Object.assign({ autoFocus: true }, {id:_this.props.id}, override);
             // if(!_this.state.validateStatus){
               mergeprops.autoFocus = false;
             // }
@@ -327,10 +329,10 @@ Form.create = (param = {}) => {
         }
         // let props = this.formControl[name];
         Cls.displayName = 'formItem';
-        // this.caches[cname]=this.caches[cname]|| <Cls />;
+        this.caches[cname]=this.caches[cname]|| <Cls/>;
         // this.formControl[cname] = new EventEmitter();
-        // return  this.caches[cname];
-        return <Cls id={id}/>;
+        return  React.cloneElement(this.caches[cname],{id:id,cname,self,name,triggerName,validateTrigger,formData });
+        // return <Cls id={id}/>;
         // return <Cls {...props}/>
       }
     },

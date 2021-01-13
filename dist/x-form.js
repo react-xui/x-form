@@ -265,8 +265,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    formData: {},
 	    formControl: {},
 	    validator: {},
-	    // caches:{},
+	    caches: {},
 	    getFieldDecorator: function getFieldDecorator(name, obj) {
+	      var _this5 = this;
+
 	      var id = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
 
 	      var triggerName = obj.trigger || "onChange";
@@ -287,7 +289,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            // return hoistNonReactStatics(WrapComponent,<Item/>)
 	            value: function setFormData(name, v) {
 	              var na = name.split('.');
-	              setValue(v, na, formData);
+	              setValue(v, na, this.props.formData);
 	            }
 	          }]);
 
@@ -300,16 +302,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	            _this3.state = { v: v, validateStatus: true };
 	            // console.log(self)
 	            // formData[cname] = v;
-	            _this3.setFormData(name, v);
-	            self.formControl[cname] = _this3;
+	            _this3.setFormData(_this3.props.name, v);
+	            self.formControl[_this3.props.cname] = _this3;
 	            return _this3;
 	          }
 
 	          _createClass(Cls, [{
 	            key: 'componentWillUnmount',
 	            value: function componentWillUnmount() {
-	              delete self.formControl[cname];
-	              delete self.validator[cname];
+	              delete this.props.self.formControl[this.props.cname];
+	              delete this.props.self.validator[this.props.cname];
 	            }
 	          }, {
 	            key: 'componentDidMount',
@@ -360,6 +362,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	              v = typeof v === 'undefined' ? '' : String(v);
 	              var isvalid = true,
 	                  msg = '';
+	              var _props = this.props,
+	                  self = _props.self,
+	                  cname = _props.cname;
 
 	              var _loop = function _loop(i, l) {
 	                var r = rules[i];
@@ -473,6 +478,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }, {
 	            key: 'render',
 	            value: function render() {
+	              var _props2 = this.props,
+	                  name = _props2.name,
+	                  self = _props2.self,
+	                  cname = _props2.cname,
+	                  triggerName = _props2.triggerName,
+	                  validateTrigger = _props2.validateTrigger;
+
 	              var override = {
 	                value: this.state.v
 	              };
@@ -514,7 +526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                  _this.validate(v);
 	                };
 	              }
-	              var mergeprops = _extends({ autoFocus: true }, _this.props, override);
+	              var mergeprops = _extends({ autoFocus: true }, { id: _this.props.id }, override);
 	              // if(!_this.state.validateStatus){
 	              mergeprops.autoFocus = false;
 	              // }
@@ -551,10 +563,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	        Cls.displayName = 'formItem';
-	        // this.caches[cname]=this.caches[cname]|| <Cls />;
+	        _this5.caches[cname] = _this5.caches[cname] || _react2.default.createElement(Cls, null);
 	        // this.formControl[cname] = new EventEmitter();
-	        // return  this.caches[cname];
-	        return _react2.default.createElement(Cls, { id: id });
+	        return _react2.default.cloneElement(_this5.caches[cname], { id: id, cname: cname, self: self, name: name, triggerName: triggerName, validateTrigger: validateTrigger, formData: formData });
+	        // return <Cls id={id}/>;
 	        // return <Cls {...props}/>
 	      };
 	    },
@@ -603,7 +615,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    //验证form
 	    validateFields: function validateFields() {
-	      var _this5 = this;
+	      var _this6 = this;
 
 	      var fields = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
@@ -617,9 +629,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (fields.length == 0) {
 	        var _loop2 = function _loop2(k) {
 	          promiseArr.push(new Promise(function (resolve) {
-	            if (_this5.formControl[k]) {
-	              _this5.formControl[k].validateValue();
-	              result[k] = _this5.validator[k];
+	            if (_this6.formControl[k]) {
+	              _this6.formControl[k].validateValue();
+	              result[k] = _this6.validator[k];
 	              resolve(result);
 	            } else {
 	              resolve({});
@@ -637,9 +649,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } else {
 	        var _loop3 = function _loop3(k) {
 	          promiseArr.push(new Promise(function (resolve) {
-	            if (_this5.formControl[fields[k]]) {
-	              _this5.formControl[fields[k]].validateValue();
-	              result[fields[k]] = _this5.validator[fields[k]];
+	            if (_this6.formControl[fields[k]]) {
+	              _this6.formControl[fields[k]].validateValue();
+	              result[fields[k]] = _this6.validator[fields[k]];
 	              resolve(result);
 	            } else {
 	              resolve({});
