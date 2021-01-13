@@ -107,6 +107,7 @@ Form.create = (param = {}) => {
           }
           constructor(props) {
             super(props)
+            let obj = props.obj;
             let v = typeof obj.value === 'undefined' ? '' : obj.value;
             this.state = { v, validateStatus: true };
             // console.log(self)
@@ -136,7 +137,9 @@ Form.create = (param = {}) => {
               nv = ''
             }
             if (newProps.value !== this.state.v) {
-              this.setState({ v: newProps.value })
+              this.setState({ v: newProps.value },()=>{
+                this.setFormData(this.props.name, this.state.v);
+              })
             }
           }
           validateValue() {
@@ -261,14 +264,15 @@ Form.create = (param = {}) => {
               value: this.state.v
             };
             // formData[cname] = this.state.v;
-            this.setFormData(name, this.state.v);
+            // this.setFormData(name, this.state.v);
             let className = '', title = '';
             if (!this.state.validateStatus) {
               className = 'validate-error';
               title = this.state.msg;
             }
             // console.log(this.props,1111212)
-            override["className"] = className;
+            // override["className"] = className;
+            override['className'] = className +' ' + (WrapComponent.props.className||'');
             // override["title"] = title;
             // console.log(WrapComponent)
             //对trigger进行合并，先执行内部的change方法
@@ -331,7 +335,7 @@ Form.create = (param = {}) => {
         Cls.displayName = 'formItem';
         this.caches[cname]=this.caches[cname]|| <Cls/>;
         // this.formControl[cname] = new EventEmitter();
-        return  React.cloneElement(this.caches[cname],{id:id,cname,self,name,triggerName,validateTrigger,formData });
+        return  React.cloneElement(this.caches[cname],{id:id,obj,value:obj.value,cname,self,name,triggerName,validateTrigger,formData });
         // return <Cls id={id}/>;
         // return <Cls {...props}/>
       }
