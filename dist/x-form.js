@@ -545,7 +545,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                _this.ref = ref;
 	              };
 
-	              var newdom = _react2.default.cloneElement(WrapComponent, mergeprops);
+	              var newdom = _react2.default.cloneElement(WrapComponent, _extends({}, this.props, mergeprops));
 	              // if (!_this.state.validateStatus) {
 	              // getI18n(title, mergeprops.locale)
 	              // // newdom = React.cloneElement(WrapComponent, Object.assign(mergeprops,{autoFocus:true}));

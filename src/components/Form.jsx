@@ -314,7 +314,7 @@ Form.create = (param = {}) => {
               _this.ref = ref;
             }
 
-            let newdom = React.cloneElement(WrapComponent, mergeprops);
+            let newdom = React.cloneElement(WrapComponent, {...this.props,...mergeprops});
             // if (!_this.state.validateStatus) {
               // getI18n(title, mergeprops.locale)
               // // newdom = React.cloneElement(WrapComponent, Object.assign(mergeprops,{autoFocus:true}));
