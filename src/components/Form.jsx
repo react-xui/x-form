@@ -108,7 +108,7 @@ Form.create = (param = {}) => {
           constructor(props) {
             super(props)
             let obj = props.obj;
-            let v = typeof obj.value === 'undefined' ? '' : obj.value;
+            let v = typeof props.value === 'undefined' ? '' : props.value;
             this.state = { v, validateStatus: true };
             // console.log(self)
             // formData[cname] = v;
