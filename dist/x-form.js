@@ -377,7 +377,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                  switch (k) {
 	                    case 'required':
 	                      {
-	                        if (v.length === 0) {
+	                        var regu = "^[ 　]+$";
+	                        var re = new RegExp(regu);
+	                        var exec = re.test(v);
+	                        if (v.length === 0 || v === '' || exec) {
 	                          isvalid = false;
 	                          msg = r.message;
 	                        }

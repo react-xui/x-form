@@ -163,7 +163,10 @@ Form.create = (param = {}) => {
               for (let k in r) {
                 switch (k) {
                   case 'required': {
-                    if (v.length === 0) {
+                    let regu = "^[ 　]+$";
+                    let re = new RegExp(regu);
+                    let exec =  re.test(v);
+                    if (v.length === 0 || v ==='' || exec) {
                       isvalid = false;
                       msg = r.message;
                     }
